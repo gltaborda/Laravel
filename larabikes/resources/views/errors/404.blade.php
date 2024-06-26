@@ -2,8 +2,9 @@
 
 @section('titulo', 'Error 404')
 
-@section('subtitulo', 'Página no encontrada, estás perdido?')
-
 @section('contenido') 
-	<img src='/images/memes/travolta.gif'>
+	<div class="text-center">
+		<h4>Página no encontrada, estás perdido?</h4>
+		<img src="{{ asset('/images/memes/travolta.gif') }}">
+	</div>
 @endsection

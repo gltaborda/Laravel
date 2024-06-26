@@ -22,8 +22,9 @@
         
         @section('navegacion')
         @php($pagina = Route::currentRouteName())
+        
         <nav>
-        	<ul class="nav nav-pills my-3">
+        	<ul class="nav nav-pills my-2">
         		<li class="nav-item mr-2">
         			<a class="nav-link {{$pagina == 'portada'? 'active' : ''}}" href="{{route('portada')}}">Inicio</a>	
         		</li>
@@ -62,18 +63,20 @@
         	
         	@yield('contenido')
         
-        	<div class="btn-group" role="group" aria-label="Links">
-        		@section('enlaces')
-					<a href="{{route('portada')}}" class="btn btn-primary mr-2">Inicio</a>
-				@show
-			</div>
+        	
 			
 		
         </main>
         
+        <div class="btn-group" role="group" aria-label="Links">
+    		@section('enlaces')
+				<a href="{{route('portada')}}" class="btn btn-primary my-1 mr-2">Inicio</a>
+			@show
+		</div>
+        
         <!-- PARTE INFERIOR -->
         @section('pie')
-        <footer class="page-footer font-small p-4 bg-light">
+        <footer class="page-footer font-small p-2 bg-light">
         	<p>Aplicación creada por Robert Sallent como ejemplo de clase.
         	Desarrollada haciendo uso de <b>Laravel</b> y <b>Bootstrap</b>.</p>
         </footer>

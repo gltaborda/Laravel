@@ -63,6 +63,6 @@
 			
 @section('enlaces')
 	@parent
-	<a href="{{route('bikes.index')}}" class="btn btn-primary mr-2">Garaje</a>
+	<a href="{{route('bikes.index')}}" class="btn btn-primary my-1 mr-2">Garaje</a>
 @endsection		
         

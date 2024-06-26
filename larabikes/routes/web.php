@@ -19,7 +19,7 @@ use App\Models\Bike;
 // ZONA PARA PRUEBAS (borrar al finalizar)
 
 
-Route::get(
+/*Route::get(
     'bikes/search/{marca?}/{modelo?}',
     function($marca = '', $modelo = ''){
     
@@ -30,16 +30,20 @@ Route::get(
         
         return view('bikes.list', ['bikes' => $bikes]);
         
-});
+});*/
 
 
 Route::get('saludar', function(){
     return 'Hola Mundo! :D';
 });
+    
 
 // FIN DE LA ZONA PARA PRUEBAS
 
 
+
+    
+    
 Route::get('/', [WelcomeController::class, 'index'])
     ->name('portada');
 
@@ -49,6 +53,11 @@ Route::get('bikes/search/{marca?}/{modelo?}', [BikeController::class, 'search'])
 Route::resource('bikes',BikeController::class);
 
 Route::get('bikes/{bike}/delete', [BikeController::class, 'delete'])
-    ->name('bikes.delete');
+->name('bikes.delete');
+
+Route::delete('/bikes/{bike}', [Bikecontroller::class, 'destroy'])
+->name('bikes.destroy')->middleware('signed');
+
+
 
 Route::fallback([WelcomeController::class, 'index']);

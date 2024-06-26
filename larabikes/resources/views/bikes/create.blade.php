@@ -40,14 +40,14 @@
     	</div>
     	
     	<div class="form-group row">
-    		<button type="submit" class="btn btn-success m-2 mt-5">Guardar</button>
-    		<button type="reset" class="btn btn-secondary m-2">Borrar</button>
+    		<button type="submit" class="btn btn-success m-1 mt-5">Guardar</button>
+    		<button type="reset" class="btn btn-secondary m-1">Borrar</button>
     	</div>
     </form>
 @endsection
 
 @section('enlaces')
 	@parent
-	<a href="{{route('bikes.index')}}" class="btn btn-primary mr-2">Garaje</a>
+	<a href="{{route('bikes.index')}}" class="btn btn-primary my-1 mr-2">Garaje</a>
 @endsection
 

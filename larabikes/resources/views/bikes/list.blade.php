@@ -15,15 +15,15 @@
 	
 	<form method="GET" class="col-6 row" action="{{route('bikes.search')}}">
 	
-		<input name="marca" type="text" class="col form-control mr-2 mb-2" 
+		<input name="marca" type="text" class="col form-control mr-2 my-2" 
 		placeholder="marca" maxlength="16" value="{{ $marca ?? '' }}">
 		
-		<input name="modelo" type="text" class="col form-control mr-2 mb-2" 
+		<input name="modelo" type="text" class="col form-control mr-2 my-2" 
 		placeholder="modelo" maxlength="16" value="{{ $modelo ?? '' }}">
 
-        <button type="submit" class="col btn btn-primary btn-sm mr-2 mb-2">Buscar</button>	
+        <button type="submit" class="col btn btn-primary btn-sm mr-2 my-2">Buscar</button>	
         	
-        <a href="{{ route('bikes.index') }}" class="col btn btn-primary btn-sm mr-2 mb-2" role="button">Quitar filtro</a>	
+        <a href="{{ route('bikes.index') }}" class="col btn btn-primary btn-sm mr-2 my-2" role="button">Quitar filtro</a>	
             	
 		
 		

@@ -5,13 +5,15 @@
 
 @section('titulo', 'Mantenimiento')
 
-@section('subtitulo', 'Estamos trabajando en la página')
-
 @section('contenido') 
-	<img src='/images/memes/mantenimiento.gif'>
+	<div class="text-center">
+		<h4>Estamos trabajando en la página</h4>
+		<img src="{{ asset('/images/memes/mantenimiento.gif') }}">
+	</div>
 @endsection
 
 @section('enlaces')
+
 @endsection
 
 @section('pie')
