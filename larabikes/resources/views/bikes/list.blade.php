@@ -32,6 +32,7 @@
 	<table class="table table-striped table-bordered">
 		<tr>
 			<th>ID</th>
+			<th>Imagen</th>
 			<th>Marca</th>
 			<th>Modelo</th>
 			<th>Operaciones</th>
@@ -39,19 +40,27 @@
 		@foreach($bikes as $bike)
 			<tr>
 				<td>{{$bike->id}}</td>
+				<td class="text-start" style="max-width: 80px">
+					<img class="rounded" style="max-width: 80%"
+        				alt="Imagen de {{$bike->marca}} {{$bike->modelo}}"
+        				title="Imagen de {{$bike->marca}} {{$bike->modelo}}"
+        				src="{{$bike->imagen?
+            			asset('storage/'.config('filesystems.bikesImageDir')).'/'.$bike->imagen:
+            			asset('storage/'.config('filesystems.bikesImageDir')).'/default.jpg'}}">
+            	</td>
 				<td>{{$bike->marca}}</td>
 				<td>{{$bike->modelo}}</td>
 				<td class="text-center">
 					<a href="{{route('bikes.show',$bike->id)}}">
-					<img height="20" width="20" src="{{asset('/images/buttons/show.png')}}"
+					<img height="30" width="30" src="{{asset('/images/buttons/show.png')}}"
 					alt="Ver detalles" title="Ver detalles"></a>
 					
 					<a href="{{route('bikes.edit',$bike->id)}}">
-					<img height="20" width="20" src="{{asset('/images/buttons/update.png')}}"
+					<img height="30" width="30" src="{{asset('/images/buttons/update.png')}}"
 					alt="Modificar" title="Modificar"></a>
 					
 					<a href="{{route('bikes.delete',$bike->id)}}">
-					<img height="20" width="20" src="{{asset('/images/buttons/delete.png')}}"
+					<img height="30" width="30" src="{{asset('/images/buttons/delete.png')}}"
 					alt="Borrar" title="Borrar"></a>
 				</td>
 			</tr>

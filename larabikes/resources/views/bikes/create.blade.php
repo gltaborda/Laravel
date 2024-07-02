@@ -5,7 +5,7 @@
 @section('subtitulo', 'Nueva moto')
 
 @section('contenido')
-    <form class="my-2 border p-5" method="POST" action="{{route('bikes.store')}}">
+    <form class="my-2 border p-5" method="POST" enctype="multipart/form-data" action="{{route('bikes.store')}}">
     	@csrf
     	<div class="form-group row">
     		<label for="inputMarca" class="col-sm-2 col-form-label">Marca</label>
@@ -40,9 +40,15 @@
     	</div>
     	
     	<div class="form-group row">
+    		<label for="inputImagen" class="col-sm-2 col-form-label">Imagen</label>
+    		<input name="imagen" type="file" class="form-control.file col-sm-10" id="inputImagen">
+    	</div>
+    	
+    	<div class="form-group row">
     		<button type="submit" class="btn btn-success m-1 mt-5">Guardar</button>
     		<button type="reset" class="btn btn-secondary m-1">Borrar</button>
     	</div>
+    	
     </form>
 @endsection
 

@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Bike;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cookie;
+use Illuminate\Support\Facades\Storage;
 
 class BikeController extends Controller
 {
@@ -54,16 +56,43 @@ class BikeController extends Controller
             'modelo'        => 'required|max:255',
             'precio'        => 'required|integer',
             'kms'           => 'required|integer',
-            'matriculada'   => 'sometimes'
+            'matriculada'   => 'sometimes',
+            'imagen'        => 'sometimes|file|image|mimes:jpg,png,gif,webp|max:2048'
         ]);
         
         // creación y guardado de la nueva moto con todos los datos POST
-        $bike = Bike::create($request->all());
+        //$bike = Bike::create($request->only(['marca', 'modelo', 'kms', 'precio', 'matriculada']));
+        
+        // recuperar datos excepto imagen
+        $datos = $request->except('imagen');
+        
+        $datos += ['imagen' => NULL];
+        
+        if($request->hasFile('imagen')){
+            // sube la imagen al directorio indicado en el fichero de config
+            $ruta = $request->file('imagen')->store(config('filesystems.bikesImageDir'));
+            
+            // nos quedamos solo con el nombre del fichero para añadirlo a la BDD
+            $datos['imagen'] = pathinfo($ruta, PATHINFO_BASENAME);
+        }
+        
+        $bike = Bike::create($datos);
+        
         
         // redirección a los detalles de la moto creada
         return redirect()->route('bikes.show',$bike->id)
-            ->with('success',"Moto $bike->marca $bike->modelo añadida satisfactoriamente");
+            ->with('success',"Moto $bike->marca $bike->modelo añadida satisfactoriamente")
+            /*->cookie('lastInsertID', $bike->id, 0)*/;
     }
+    
+    /*public function editLast(){
+        
+        if(!Cookie::has('lastInsertID'))
+            return redirect()->route('bikes.create')->with('warning', "No hay moto editada.");
+            
+        $id = Cookie::get('lastInsertId');
+        return redirect()->route('bikes.edit', $id)->with('success', "$bike->marca $bike->modelo fue la última moto editada");
+    }*/
 
     /**
      * Display the specified resource.
@@ -104,22 +133,60 @@ class BikeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Bike $bike)
-    {
+    public function update(Request $request, Bike $bike){
         // validación de datos
         $request->validate([
             'marca'         => 'required|max:255',
             'modelo'        => 'required|max:255',
             'precio'        => 'required|integer',
             'kms'           => 'required|integer',
-            'matriculada'   => 'sometimes'
+            'matriculada'   => 'sometimes',
+            'imagen'        => 'sometimes|file|image|mimes:jpg,png,gif,webp|max:2048'
         ]);
         
         //$bike = Bike::findOrFail($id);  // recupera la moto de la BDD
-        $bike->update($request->all()+['matriculada'=>0]); // actualiza
+        
+        //$bike->update($request->all()+['matriculada'=>0]); // actualiza
+        
+        // acolar cookies
+        /*Cookie::queue('lastUpdateID', $bike->id, 0);
+        Cookie::queue('lastUpdateDate', now(), 0);*/
+        
+        //toma los datos del formulario
+        $datos = $request->except('imagen');
+        
+        // si llega una nueva imagen
+        if($request->hasFile('imagen')){
+            // marcamos la imagen antigua para ser borrada si el update va bien
+            if($bike->imagen)
+                $aBorrar = config('filesystems.bikesImageDir').'/'.$bike->imagen;
+            
+            // sube la imagen al directorio indicado en el fichero de config
+            $imagenNueva = $request->file('imagen')->store(config('filesystems.bikesImageDir'));
+            
+            // nos quedamos solo con el nombre del fichero para añadirlo a la BDD
+            $datos['imagen'] = pathinfo($imagenNueva, PATHINFO_BASENAME);
+        }
+        
+        // en caso de que nos pidan eliminar la imagen
+        if($request->filled('eliminarImagen') && $bike->imagen){
+            $datos['imagen'] = NULL;
+            $aBorrar = config('filesystems.bikesImageDir').'/'.$bike->imagen;
+            //dd($datos);
+        }
+        
+        // al actualizar debemos tener en cuenta varias cosas:
+        if($bike->update($datos+['matriculada' => 0])){ // si todo va bien
+            if(isset($aBorrar))
+                Storage::delete($aBorrar); // borramos foto antigua
+        }else{ // si algo falla
+            if(isset($imagenNueva))
+                Storage::delete($imagenNueva); // borramos la foto nueva
+        }
         
         // carga la misma vista y muestra el mensaje de éxito
-        return back()->with('success',"Moto $bike->marca $bike->modelo actualizada");
+        return redirect()->route('bikes.show',$bike->id)
+            ->with('success',"Moto $bike->marca $bike->modelo actualizada");
     }
 
     public function delete(Bike $bike)
@@ -143,8 +210,10 @@ class BikeController extends Controller
         // busca la moto seleccionada
         //$bike = Bike::findOrFail($id);
         
-        // la borra de la base de datos
-        $bike->delete();
+        // borra de la base de datos y tiene foto
+        if($bike->delete() && $bike->imagen)
+            // elimina el fichero
+            Storage::delete(config('filesystems.bikesImageDir').'/'.$bike->imagen);
         
         //redirige a la lista de motos
         return redirect('bikes')
@@ -169,6 +238,8 @@ class BikeController extends Controller
             'modelo' => $modelo
         ]);        
     }
+    
+    
     
     
 }

@@ -51,6 +51,10 @@
         		<x-alert type="success" message="{{ Session::get('success') }}"/>
         	@endif
         	
+        	@if(Session::has('warning'))
+        		<x-alert type="warning" message="{{ Session::get('warning') }}"/>
+        	@endif
+        	
         	@if($errors->any())
         		<x-alert type="danger" message="Se han producido errores:">
         			<ul>

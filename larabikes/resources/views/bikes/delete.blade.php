@@ -8,10 +8,22 @@
 	<form method="POST" class="my-2 border p-5" action="{{URL::signedRoute('bikes.destroy', $bike->id)}}">
 		@csrf
 		@method('DELETE')
+		<figure>
+			<figcaption>Imagen actual:</figcaption>
+			<img class="rounded" style="max-width: 400px"
+        		alt="Imagen de {{$bike->marca}} {{$bike->modelo}}"
+        		title="Imagen de {{$bike->marca}} {{$bike->modelo}}"
+        		src="{{$bike->imagen?
+        			asset('storage/'.config('filesystems.bikesImageDir')).'/'.$bike->imagen:
+        			asset('storage/'.config('filesystems.bikesImageDir')).'/default.jpg'}}">
+    		
+    		
+		</figure>
 		<label for="confirmdelete">Seguro que quiere borrar la moto 
-			{{ "$bike->marca $bike->modelo" }}?</label>
+    			{{ "$bike->marca $bike->modelo" }}?</label>
+    			
 		<input type="submit" alt="Borrar" title="Borrar" class="btn btn-danger m-1"
-			value="Borrar" id="confirmdelete">
+    			value="Borrar" id="confirmdelete">
 	</form>	
 @endsection
 
