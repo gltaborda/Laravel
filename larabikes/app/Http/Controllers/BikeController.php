@@ -85,14 +85,14 @@ class BikeController extends Controller
             /*->cookie('lastInsertID', $bike->id, 0)*/;
     }
     
-    /*public function editLast(){
+    public function editLast(){
         
         if(!Cookie::has('lastInsertID'))
             return redirect()->route('bikes.create')->with('warning', "No hay moto editada.");
             
         $id = Cookie::get('lastInsertId');
         return redirect()->route('bikes.edit', $id)->with('success', "$bike->marca $bike->modelo fue la última moto editada");
-    }*/
+    }
 
     /**
      * Display the specified resource.
@@ -150,7 +150,7 @@ class BikeController extends Controller
         
         // acolar cookies
         /*Cookie::queue('lastUpdateID', $bike->id, 0);
-        Cookie::queue('lastUpdateDate', now(), 0);*/
+        Cookie::queue('lastUpdateDate', now(), 0)*/;
         
         //toma los datos del formulario
         $datos = $request->except('imagen');

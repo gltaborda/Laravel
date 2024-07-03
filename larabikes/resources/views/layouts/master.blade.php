@@ -26,14 +26,21 @@
         <nav>
         	<ul class="nav nav-pills my-2">
         		<li class="nav-item mr-2">
-        			<a class="nav-link {{$pagina == 'portada'? 'active' : ''}}" href="{{route('portada')}}">Inicio</a>	
+        			<a class="nav-link {{ $pagina == 'portada'? 'active' : '' }}" 
+        				href="{{ route('portada') }}">Inicio</a>	
         		</li>
         		<li class="nav-item mr-2">
         			<a class="nav-link {{$pagina == 'bikes.index' ||
-        			 $pagina == 'bikes.search'?'active' : ''}}" href="{{route('bikes.index')}}">Garaje</a>	
+        			 	$pagina == 'bikes.search'?'active' : ''}}" 
+        			 	href="{{ route('bikes.index') }}">Garaje</a>	
         		</li>
         		<li class="nav-item mr-2">
-        			<a class="nav-link {{$pagina == 'bikes.create'? 'active' : ''}}" href="{{route('bikes.create')}}">Nueva moto</a>	
+        			<a class="nav-link {{ $pagina == 'contacto'?'active' : '' }}" 
+        				href="{{ route('contacto') }}">Contacto</a>	
+        		</li>
+        		<li class="nav-item mr-2">
+        			<a class="nav-link {{ $pagina == 'bikes.create'? 'active' : '' }}" 
+        				href="{{ route('bikes.create') }}">Nueva moto</a>	
         		</li>
         	</ul>	
 
@@ -81,7 +88,7 @@
         <!-- PARTE INFERIOR -->
         @section('pie')
         <footer class="page-footer font-small p-2 bg-light">
-        	<p>Aplicación creada por Robert Sallent como ejemplo de clase.
+        	<p>Aplicación creada por {{ $autor }} como ejemplo de clase.
         	Desarrollada haciendo uso de <b>Laravel</b> y <b>Bootstrap</b>.</p>
         </footer>
         @show

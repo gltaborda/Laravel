@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BikeController;
 use App\Http\Controllers\WelcomeController;
+use App\Http\Controllers\ContactoController;
 //use App\Models\Bike;
 
 /*
@@ -43,9 +44,17 @@ Route::get('saludar', function(){
 
 
 // FIN DE LA ZONA PARA PRUEBAS
+
+
+Route::get('/contacto', [ContactoController::class, 'index'])
+    ->name('contacto');
+
+Route::post('/contacto', [ContactoController::class, 'send'])
+    ->name('contacto.email');
+
     
-/*Route::get('/bikes/editlast', [BikeController::class, 'editLast'])
-    ->name('bikes.editlast');*/
+Route::get('/bikes/editlast', [BikeController::class, 'editLast'])
+    ->name('bikes.editlast');
 
 Route::get('/', [WelcomeController::class, 'index'])
     ->name('portada');
@@ -59,7 +68,7 @@ Route::get('bikes/{bike}/delete', [BikeController::class, 'delete'])
 ->name('bikes.delete');
 
 Route::delete('/bikes/{bike}', [Bikecontroller::class, 'destroy'])
-->name('bikes.destroy')/*->middleware('signed')*/;
+->name('bikes.destroy')->middleware('signed');
 
 Route::fallback([WelcomeController::class, 'index']);
 
