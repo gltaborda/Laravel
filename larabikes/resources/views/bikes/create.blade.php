@@ -31,17 +31,35 @@
     		id="inputPrecio" step="10" value="{{old('precio')}}">
     	</div>
     	
-    	<div class="form-group row">
+    	<div class="form-group row my-2">
     		<div class="form-check">
-    			<input name="matriculada" value="1" class="form-check-input"
+    			<input name="matriculada" value="1" class="form-check-input" id="chkMatriculada"
     			type="checkbox" {{old('matriculada')? "checked" : ""}}>
-    			<label class="form-check-label">Matriculada</label>
+    			<label for="chkMatriculada" class="form-check-label">Matriculada</label>
     		</div>
+    		<div class="form-check col-sm-6">
+        		<label for="inputMatricula" class="col-sm-2 form-label">Matrícula</label>
+        		<input name="matricula" type="text" class="up form-control"
+        			id="inputMatricula" maxlength="7" value="{{ old('matricula') }}">
+        	</div>
     	</div>
-    	
+    	<script>
+    		inputMatricula.disabled = !chkMatriculada.checked;
+    		
+    		chkMatriculada.onchange = function(){
+    			inputMatricula.disabled = !chkMatriculada.checked;
+    		}
+    	</script>
+    	<div class="form-group row my-2">
+        	<div class="form-check col-sm-6">
+        		<label for="inputColor" class="col-sm-2 form-label">Color</label>
+        		<input name="color" type="color" class="up form-control form-control-color"
+        			id="inputColor" value="{{ old('color') ?? '#FFFFFF' }}">
+        	</div>
+    	</div>
     	<div class="form-group row">
     		<label for="inputImagen" class="col-sm-2 col-form-label">Imagen</label>
-    		<input name="imagen" type="file" class="form-control.file col-sm-10" id="inputImagen">
+    		<input name="imagen" type="file" class="form-control-file col-sm-10" id="inputImagen">
     	</div>
     	
     	<div class="form-group row">

@@ -34,12 +34,32 @@
 		</div>
 		
 		<div class="form-group row">
-			<div class="form-check">
+			<div class="form-check col-sm-6">
     			<input name="matriculada" value="1" class="form-check-input"
-    			type="checkbox" {{ $bike->matriculada? "checked" : "" }}>
-    			<label class="form-check-label">Matriculada</label>
+    			type="checkbox" id="chkMatriculada" {{ $bike->matriculada? "checked" : "" }}>
+    			<label for="chkMatriculada" class="form-check-label">Matriculada</label>
     		</div>
-		</div>
+    		<div class="form-check col-sm-6">
+    			<label for="inputMatricula" class="col-sm-2 form-label">Matrícula</label>
+    			<input name="matricula" type="text" class="form-check-input"
+    			 id="inputMatricula" maxlength="7" value="{{ $bike->matricula }}" }}>
+    		</div>
+		</div>		
+		<script>
+    		inputMatricula.disabled = !chkMatriculada.checked;
+    		
+    		chkMatriculada.onchange = function(){
+    			inputMatricula.disabled = !chkMatriculada.checked;
+    		}
+    	</script>
+    	
+    	<div class="form-group row">
+        	<div class="form-check col-sm-6">
+        		<label for="inputColor" class="col-sm-2 form-label">Color</label>
+        		<input name="color" type="color" class="up form-control form-control-color"
+        			id="inputColor" value="{{ $bike->color ?? '#FFFFFF' }}">
+        	</div>
+    	</div>
 		
 		<div class="form-group row my-3">
 			<div class="col-sm-9">

@@ -8,12 +8,12 @@
 	<div class="row">
 		<div class="col-6 text-start">{{ $bikes->links() }}</div>
 		<div class="col-6 text-end">
-			<p>Nueva moto <a href="{{route('bikes.create')}}"
+			<p>Nueva moto <a href="{{ route('bikes.create') }}"
 				class="btn btn-success ml-2">+</a></p>
 		</div>
 	</div>
 	
-	<form method="GET" class="col-6 row" action="{{route('bikes.search')}}">
+	<form method="GET" class="col-6 row" action="{{ route('bikes.search') }}">
 	
 		<input name="marca" type="text" class="col form-control mr-2 my-2" 
 		placeholder="marca" maxlength="16" value="{{ $marca ?? '' }}">
@@ -35,36 +35,41 @@
 			<th>Imagen</th>
 			<th>Marca</th>
 			<th>Modelo</th>
+			<th>Matrícula</th>
+			<th>Color</th>
 			<th>Operaciones</th>
 		</tr>
 		@foreach($bikes as $bike)
 			<tr>
-				<td>{{$bike->id}}</td>
+				<td>{{ $bike->id }}</td>
 				<td class="text-start" style="max-width: 80px">
 					<img class="rounded" style="max-width: 80%"
-        				alt="Imagen de {{$bike->marca}} {{$bike->modelo}}"
-        				title="Imagen de {{$bike->marca}} {{$bike->modelo}}"
-        				src="{{$bike->imagen?
-            			asset('storage/'.config('filesystems.bikesImageDir')).'/'.$bike->imagen:
-            			asset('storage/'.config('filesystems.bikesImageDir')).'/default.jpg'}}">
+        				alt="Imagen de {{ $bike->marca }} {{ $bike->modelo }}"
+        				title="Imagen de {{ $bike->marca }} {{ $bike->modelo }}"
+        				src="{{ $bike->imagen?
+            			asset('storage/'.config('filesystems.bikesImageDir')).'/'.$bike->imagen :
+            			asset('storage/'.config('filesystems.bikesImageDir')).'/default.jpg' }}">
             	</td>
-				<td>{{$bike->marca}}</td>
-				<td>{{$bike->modelo}}</td>
+				<td>{{ $bike->marca }}</td>
+				<td>{{ $bike->modelo }}</td>
+				<td>{{ $bike->matricula? $bike->matricula : '-' }}</td>
+				<td class="{{ ($bike->color) == '#000000'? 'text-white' : 'text-dark' }}" 
+				style="background-color:{{ $bike->color }}">{{ $bike->color }}</td>
 				<td class="text-center">
-					<a href="{{route('bikes.show',$bike->id)}}">
-					<img height="30" width="30" src="{{asset('/images/buttons/show.png')}}"
+					<a href="{{ route('bikes.show',$bike->id)}}">
+					<img height="30" width="30" src="{{ asset('/images/buttons/show.png') }}"
 					alt="Ver detalles" title="Ver detalles"></a>
 					
-					<a href="{{route('bikes.edit',$bike->id)}}">
-					<img height="30" width="30" src="{{asset('/images/buttons/update.png')}}"
+					<a href="{{ route('bikes.edit',$bike->id) }}">
+					<img height="30" width="30" src="{{ asset('/images/buttons/update.png') }}"
 					alt="Modificar" title="Modificar"></a>
 					
-					<a href="{{route('bikes.delete',$bike->id)}}">
-					<img height="30" width="30" src="{{asset('/images/buttons/delete.png')}}"
+					<a href="{{ route('bikes.delete',$bike->id) }}">
+					<img height="30" width="30" src="{{ asset('/images/buttons/delete.png') }}"
 					alt="Borrar" title="Borrar"></a>
 				</td>
 			</tr>
 		@endforeach
-		<tr><td colspan="7">Mostrando {{sizeof($bikes)}} de {{$bikes->total()}} motos</td></tr>
+		<tr><td colspan="7">Mostrando {{ sizeof($bikes) }} de {{ $bikes->total() }} motos</td></tr>
 	</table>
 @endsection    		

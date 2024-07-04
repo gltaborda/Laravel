@@ -54,9 +54,13 @@ class BikeController extends Controller
         $request->validate([
             'marca'         => 'required|max:255',
             'modelo'        => 'required|max:255',
-            'precio'        => 'required|integer',
-            'kms'           => 'required|integer',
+            'precio'        => 'required|integer|min:0',
+            'kms'           => 'required|integer|min:0',
             'matriculada'   => 'sometimes',
+            'matricula'     => 'required_with:matricula,1|nullable|
+                                regex:/^\d{4}[B-DF-HJ-NP-Z]{3}$/|
+                                unique:bikes',
+            'color'         => 'nullable|regex:/^#[\dA-F]{6}$/i',
             'imagen'        => 'sometimes|file|image|mimes:jpg,png,gif,webp|max:2048'
         ]);
         
@@ -138,9 +142,13 @@ class BikeController extends Controller
         $request->validate([
             'marca'         => 'required|max:255',
             'modelo'        => 'required|max:255',
-            'precio'        => 'required|integer',
-            'kms'           => 'required|integer',
+            'precio'        => 'required|integer|min:0',
+            'kms'           => 'required|integer|min:0',
             'matriculada'   => 'sometimes',
+            'matricula'     => "required_with:matricula,1|nullable|
+                                regex:/^\d{4}[B-DF-HJ-NP-Z]{3}$/|
+                                unique:bikes,matricula,$bike->id",
+            'color'         => 'nullable|regex:/^#[\dA-F]{6}$/i',
             'imagen'        => 'sometimes|file|image|mimes:jpg,png,gif,webp|max:2048'
         ]);
         
@@ -176,7 +184,8 @@ class BikeController extends Controller
         }
         
         // al actualizar debemos tener en cuenta varias cosas:
-        if($bike->update($datos+['matriculada' => 0])){ // si todo va bien
+        // agrego para que si no está matriculada se ponga a 0 y la matrícula se borre
+        if($bike->update($datos+['matriculada' => 0]+['matricula' => NULL])){ // si todo va bien
             if(isset($aBorrar))
                 Storage::delete($aBorrar); // borramos foto antigua
         }else{ // si algo falla

@@ -11,7 +11,7 @@ class Contact extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $mensaje; // aquí va toda la info
+    public $mensaje; // aquí va toda la info, es un objeto
     
     // Create a new message instance.
      
