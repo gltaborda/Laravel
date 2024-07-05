@@ -35,6 +35,7 @@
 			<th>Imagen</th>
 			<th>Marca</th>
 			<th>Modelo</th>
+			<th>Descripción</th>
 			<th>Matrícula</th>
 			<th>Color</th>
 			<th>Operaciones</th>
@@ -42,8 +43,8 @@
 		@foreach($bikes as $bike)
 			<tr>
 				<td>{{ $bike->id }}</td>
-				<td class="text-start" style="max-width: 80px">
-					<img class="rounded" style="max-width: 80%"
+				<td class="text-start" style="max-width: 70px">
+					<img class="rounded" style="max-width: 100%"
         				alt="Imagen de {{ $bike->marca }} {{ $bike->modelo }}"
         				title="Imagen de {{ $bike->marca }} {{ $bike->modelo }}"
         				src="{{ $bike->imagen?
@@ -52,6 +53,7 @@
             	</td>
 				<td>{{ $bike->marca }}</td>
 				<td>{{ $bike->modelo }}</td>
+				<td>{{ $bike->descripcion }}</td>
 				<td>{{ $bike->matricula? $bike->matricula : '-' }}</td>
 				<td class="{{ ($bike->color) == '#000000'? 'text-white' : 'text-dark' }}" 
 				style="background-color:{{ $bike->color }}">{{ $bike->color }}</td>

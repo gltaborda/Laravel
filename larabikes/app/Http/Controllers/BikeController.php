@@ -6,6 +6,8 @@ use App\Models\Bike;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Storage;
+use App\Http\Requests\BikeStoreRequest;
+use App\Http\Requests\BikeUpdateRequest;
 
 class BikeController extends Controller
 {
@@ -48,10 +50,10 @@ class BikeController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(BikeStoreRequest $request)
     {
         // validación de datos de entrada mediante validator
-        $request->validate([
+        /*$request->validate([
             'marca'         => 'required|max:255',
             'modelo'        => 'required|max:255',
             'precio'        => 'required|integer|min:0',
@@ -62,7 +64,7 @@ class BikeController extends Controller
                                 unique:bikes',
             'color'         => 'nullable|regex:/^#[\dA-F]{6}$/i',
             'imagen'        => 'sometimes|file|image|mimes:jpg,png,gif,webp|max:2048'
-        ]);
+        ]);*/
         
         // creación y guardado de la nueva moto con todos los datos POST
         //$bike = Bike::create($request->only(['marca', 'modelo', 'kms', 'precio', 'matriculada']));
@@ -137,9 +139,9 @@ class BikeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Bike $bike){
+    public function update(BikeUpdateRequest $request, Bike $bike){
         // validación de datos
-        $request->validate([
+        /*$request->validate([
             'marca'         => 'required|max:255',
             'modelo'        => 'required|max:255',
             'precio'        => 'required|integer|min:0',
@@ -150,7 +152,7 @@ class BikeController extends Controller
                                 unique:bikes,matricula,$bike->id",
             'color'         => 'nullable|regex:/^#[\dA-F]{6}$/i',
             'imagen'        => 'sometimes|file|image|mimes:jpg,png,gif,webp|max:2048'
-        ]);
+        ]);*/
         
         //$bike = Bike::findOrFail($id);  // recupera la moto de la BDD
         
@@ -158,7 +160,7 @@ class BikeController extends Controller
         
         // acolar cookies
         /*Cookie::queue('lastUpdateID', $bike->id, 0);
-        Cookie::queue('lastUpdateDate', now(), 0)*/;
+        Cookie::queue('lastUpdateDate', now(), 0);*/
         
         //toma los datos del formulario
         $datos = $request->except('imagen');

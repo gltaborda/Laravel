@@ -10,6 +10,6 @@ class Bike extends Model
     use HasFactory;
     
     // campos donde puede hacerse asignación masiva, evita inyección
-    protected $fillable = ['marca', 'modelo', 'kms', 'precio',
-                            'matriculada', 'matricula', 'color', 'imagen'];
+    protected $fillable = ['marca', 'modelo', 'descripcion', 'kms', 'precio', 'cv',
+                            'year','matriculada', 'matricula', 'color', 'imagen'];
 }

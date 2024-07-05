@@ -19,12 +19,24 @@
 			<td>{{ $bike->modelo }}</td>
 		</tr>
 		<tr>
+			<td>Descripción</td>
+			<td>{{ $bike->descripcion }}</td>
+		</tr>
+		<tr>
 			<td>Precio</td>
 			<td>{{ $bike->precio }}</td>
 		</tr>
 		<tr>
 			<td>Kms</td>
 			<td>{{ $bike->kms }}</td>
+		</tr>
+		<tr>
+			<td>CV</td>
+			<td>{{ $bike->cv }}</td>
+		</tr>
+		<tr>
+			<td>Año</td>
+			<td>{{ $bike->year }}</td>
 		</tr>
 		<tr>
 			<td>Matriculada</td>
