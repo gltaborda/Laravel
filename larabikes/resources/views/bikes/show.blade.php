@@ -67,18 +67,20 @@
 		</tr>
 	</table>
 	
-	<div class="text-end my-3">
-		<div class="btn-group mx-2">
-			<a class="mx-2" href="{{ route('bikes.edit',$bike->id) }}">
-			<img height="40" width="40" src="{{ asset('/images/buttons/update.png') }}"
-				alt="Modificar" title="Modificar">
-			</a>
-			<a class="mx-2" href="{{ route('bikes.delete',$bike->id) }}">
-			<img height="40" width="40" src="{{ asset('/images/buttons/delete.png') }}"
-				alt="Borrar" title="Borrar">
-			</a>      			     			
-		</div>
-	</div>
+	@auth
+    	<div class="text-end my-3">
+    		<div class="btn-group mx-2">
+    			<a class="mx-2" href="{{ route('bikes.edit',$bike->id) }}">
+    			<img height="40" width="40" src="{{ asset('/images/buttons/update.png') }}"
+    				alt="Modificar" title="Modificar">
+    			</a>
+    			<a class="mx-2" href="{{ route('bikes.delete',$bike->id) }}">
+    			<img height="40" width="40" src="{{ asset('/images/buttons/delete.png') }}"
+    				alt="Borrar" title="Borrar">
+    			</a>      			     			
+    		</div>
+    	</div>
+	@endauth
 @endsection    		
     		
 @section('enlaces')

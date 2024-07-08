@@ -61,14 +61,15 @@
 					<a href="{{ route('bikes.show',$bike->id)}}">
 					<img height="30" width="30" src="{{ asset('/images/buttons/show.png') }}"
 					alt="Ver detalles" title="Ver detalles"></a>
-					
-					<a href="{{ route('bikes.edit',$bike->id) }}">
-					<img height="30" width="30" src="{{ asset('/images/buttons/update.png') }}"
-					alt="Modificar" title="Modificar"></a>
-					
-					<a href="{{ route('bikes.delete',$bike->id) }}">
-					<img height="30" width="30" src="{{ asset('/images/buttons/delete.png') }}"
-					alt="Borrar" title="Borrar"></a>
+					@auth
+        				<a href="{{ route('bikes.edit',$bike->id) }}">
+        				<img height="30" width="30" src="{{ asset('/images/buttons/update.png') }}"
+        				alt="Modificar" title="Modificar"></a>
+        				
+        				<a href="{{ route('bikes.delete',$bike->id) }}">
+        				<img height="30" width="30" src="{{ asset('/images/buttons/delete.png') }}"
+        				alt="Borrar" title="Borrar"></a>
+        			@endauth
 				</td>
 			</tr>
 		@endforeach

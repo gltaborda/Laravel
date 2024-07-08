@@ -45,6 +45,9 @@ Route::get('saludar', function(){
 
 // FIN DE LA ZONA PARA PRUEBAS
 
+Auth::routes(['verify' => true]);
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::get('/contacto', [ContactoController::class, 'index'])
     ->name('contacto');
@@ -71,6 +74,8 @@ Route::delete('/bikes/{bike}', [Bikecontroller::class, 'destroy'])
 ->name('bikes.destroy')->middleware('signed');
 
 Route::fallback([WelcomeController::class, 'index']);
+
+
 
 
 

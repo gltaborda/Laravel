@@ -12,6 +12,10 @@
         
         <!-- Carga del CSS de Bootstrap -->
         <link rel="stylesheet" type="text/css" href="{{asset('css/bootstrap.min.css')}}">
+        
+        <script src="{{asset('js/bootstrap.bundle.js')}}"></script>
+        
+        
     </head>
     <body class="container p-3">
         <!-- PARTE SUPERIOR (menú) -->
@@ -38,11 +42,51 @@
         			<a class="nav-link {{ $pagina == 'contacto'?'active' : '' }}" 
         				href="{{ route('contacto') }}">Contacto</a>	
         		</li>
-        		<li class="nav-item mr-2">
-        			<a class="nav-link {{ $pagina == 'bikes.create'? 'active' : '' }}" 
-        				href="{{ route('bikes.create') }}">Nueva moto</a>	
-        		</li>
-        	</ul>	
+        		@auth
+            		<li class="nav-item mr-2">
+            			<a class="nav-link {{ $pagina == 'bikes.create'? 'active' : '' }}" 
+            				href="{{ route('bikes.create') }}">Nueva moto</a>	
+            		</li>
+            	@endauth
+                <!-- Authentication Links -->
+                @guest
+                    @if (Route::has('login'))
+                        <li class="nav-item ms-auto mr-2">
+                            <a class="nav-link {{ $pagina == 'login'? 'active' : '' }}" href="{{ route('login') }}">{{ __('Login') }}</a>
+                        </li>
+                    @endif
+
+                    @if (Route::has('register'))
+                        <li class="nav-item mr-2">
+                            <a class="nav-link {{ $pagina == 'register'? 'active' : '' }}" href="{{ route('register') }}">{{ __('Register') }}</a>
+                        </li>
+                    @endif
+                @else
+                    <li class="nav-item ms-auto dropdown">
+                        <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                            {{ Auth::user()->name }} ({{ Auth::user()->email }})
+                        </a>
+						
+                        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="{{ route('home') }}">
+								Perfil
+							</a>
+                            
+                            <a class="dropdown-item" href="{{ route('logout') }}"
+                               onclick="event.preventDefault();
+                                             document.getElementById('logout-form').submit();">
+                                {{ __('Logout') }}
+                            </a>
+
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                @csrf
+                            </form>
+                        </div>
+                    </li>
+                @endguest
+        	</ul>
+        	
+        	
 
         	<p>Catálogo total de {{ $total }} motos</p>
         	
