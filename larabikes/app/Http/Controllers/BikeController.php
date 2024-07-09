@@ -3,16 +3,21 @@
 namespace App\Http\Controllers;
 
 use App\Models\Bike;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Gate;
 use App\Http\Requests\BikeStoreRequest;
 use App\Http\Requests\BikeUpdateRequest;
+use App\Http\Requests\BikeDeleteRequest;
 
 class BikeController extends Controller
 {
     public function __construct(){
-        $this->middleware('auth')->except('index','show','search');
+        $this->middleware('verified')->except('index','show','search');
+        
+        $this->middleware('password.confirm')->only('destroy');
     }
     
     /**
@@ -76,6 +81,8 @@ class BikeController extends Controller
         // recuperar datos excepto imagen
         $datos = $request->except('imagen');
         
+        $datos['user_id'] = $request->user()->id;
+        
         $datos += ['imagen' => NULL];
         
         if($request->hasFile('imagen')){
@@ -126,11 +133,15 @@ class BikeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Bike $bike)
+    public function edit(Request $request, Bike $bike)
     {
         // recupera la moto con el id deseado
         // si no la encuentra generará un error 404
         //$bike = Bike::findOrFail($id);
+        
+        // policies en controlador
+        /*if($request->user()->cant('delete', $bike))
+         abort(401, 'No puedes borrar una moto que no es tuya');*/
         
         // carga la vista con el formulario para modificar la moto
         return view('bikes.update',['bike'=>$bike]);
@@ -166,7 +177,12 @@ class BikeController extends Controller
         /*Cookie::queue('lastUpdateID', $bike->id, 0);
         Cookie::queue('lastUpdateDate', now(), 0);*/
         
+        // policies en controlador
+        /*if($request->user()->cant('delete', $bike))
+         abort(401, 'No puedes borrar una moto que no es tuya');*/
+        
         //toma los datos del formulario
+        
         $datos = $request->except('imagen');
         
         // si llega una nueva imagen
@@ -204,13 +220,15 @@ class BikeController extends Controller
             ->with('success',"Moto $bike->marca $bike->modelo actualizada");
     }
 
-    public function delete(Bike $bike)
+    public function delete(BikeDeleteRequest $request, Bike $bike)
     {
         // recupera la moto a eliminar
         //$bike = Bike::findOrFail($id);
         
         // muestra la vista de confirmación de eliminación
-        return view('bikes.delete',['bike'=>$bike]);
+        /*if($request->user()->cant('delete', $bike))
+            abort(401, 'No puedes borrar una moto que no es tuya');*/
+        return view('bikes.delete', ['bike'=>$bike]);
     }
     
     
@@ -220,10 +238,13 @@ class BikeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Bike $bike)
+    public function destroy(BikeDeleteRequest $request, Bike $bike)
     {
         // busca la moto seleccionada
         //$bike = Bike::findOrFail($id);
+        
+        /*if($request->user()->cant('delete', $bike))
+            abort(401, 'No puedes borrar una moto que no es tuya');*/
         
         // borra de la base de datos y tiene foto
         if($bike->delete() && $bike->imagen)
@@ -254,6 +275,13 @@ class BikeController extends Controller
         ]);        
     }
     
+    
+    // intento de mostrar el nombre del usuario, no funciona por ahora
+    /*public function getOwner(){
+        $user = User::where('id', 'like', $this->user_id);
+        
+        return $user->name;
+    }*/
     
     
     

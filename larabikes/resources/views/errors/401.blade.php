@@ -1,6 +1,6 @@
 @extends('layouts.master')
 
-@section('titulo', 'Error 403 - Prohibido')
+@section('titulo', 'Error 401 - No autorizado')
 
 @section('contenido') 
 	<div class="text-center">

@@ -7,10 +7,12 @@
 @section('contenido')	
 	<div class="row">
 		<div class="col-6 text-start">{{ $bikes->links() }}</div>
+		@auth
 		<div class="col-6 text-end">
 			<p>Nueva moto <a href="{{ route('bikes.create') }}"
 				class="btn btn-success ml-2">+</a></p>
 		</div>
+		@endauth
 	</div>
 	
 	<form method="GET" class="col-6 row" action="{{ route('bikes.search') }}">
@@ -61,15 +63,16 @@
 					<a href="{{ route('bikes.show',$bike->id)}}">
 					<img height="30" width="30" src="{{ asset('/images/buttons/show.png') }}"
 					alt="Ver detalles" title="Ver detalles"></a>
-					@auth
+					@can('update', $bike)
         				<a href="{{ route('bikes.edit',$bike->id) }}">
         				<img height="30" width="30" src="{{ asset('/images/buttons/update.png') }}"
         				alt="Modificar" title="Modificar"></a>
-        				
+        			@endcan
+        			@can('delete', $bike)	
         				<a href="{{ route('bikes.delete',$bike->id) }}">
         				<img height="30" width="30" src="{{ asset('/images/buttons/delete.png') }}"
         				alt="Borrar" title="Borrar"></a>
-        			@endauth
+        			@endcan
 				</td>
 			</tr>
 		@endforeach

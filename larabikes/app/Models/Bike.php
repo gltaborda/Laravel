@@ -11,5 +11,5 @@ class Bike extends Model
     
     // campos donde puede hacerse asignación masiva, evita inyección
     protected $fillable = ['marca', 'modelo', 'descripcion', 'kms', 'precio', 'cv',
-                            'year','matriculada', 'matricula', 'color', 'imagen'];
+                            'year','matriculada', 'matricula', 'color', 'imagen', 'user_id'];
 }

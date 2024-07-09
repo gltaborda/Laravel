@@ -5,7 +5,12 @@
 @section('subtitulo', "Detalles de la moto $bike->marca $bike->modelo")
         
 @section('contenido') 
-	<table class="table table-striped table-bordered">
+	<table class="table table-striped table-bordered my-3">
+		<tr>
+			<td>Dueño</td>
+			<td>{{ $bike->user_id }}</td>
+		</tr>
+	
 		<tr>
 			<td>ID</td>
 			<td>{{ $bike->id }}</td>
@@ -67,20 +72,23 @@
 		</tr>
 	</table>
 	
-	@auth
+	
     	<div class="text-end my-3">
     		<div class="btn-group mx-2">
+    			@can('update', $bike)
     			<a class="mx-2" href="{{ route('bikes.edit',$bike->id) }}">
     			<img height="40" width="40" src="{{ asset('/images/buttons/update.png') }}"
     				alt="Modificar" title="Modificar">
     			</a>
+    			@endcan
+    			@can('delete', $bike)
     			<a class="mx-2" href="{{ route('bikes.delete',$bike->id) }}">
     			<img height="40" width="40" src="{{ asset('/images/buttons/delete.png') }}"
     				alt="Borrar" title="Borrar">
-    			</a>      			     			
+    			</a> 
+    			@endcan     			     			
     		</div>
     	</div>
-	@endauth
 @endsection    		
     		
 @section('enlaces')

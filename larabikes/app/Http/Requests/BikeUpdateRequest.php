@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Auth\Access\AuthorizationException;
 
 class BikeUpdateRequest extends BikeStoreRequest
 {
@@ -13,11 +14,16 @@ class BikeUpdateRequest extends BikeStoreRequest
      */
     
     // Hereda del store, hace lo mismo por el momento
-    /*public function authorize()
+    public function authorize()
     {
-        return true;
-    }*/
+        return $this->user()->can('update', $this->bike);
+    }
 
+    protected function failedAuthorization(){
+        throw new AuthorizationException('No puedes editar una moto que no es tuya');
+    }
+    
+    
     /**
      * Get the validation rules that apply to the request.
      *

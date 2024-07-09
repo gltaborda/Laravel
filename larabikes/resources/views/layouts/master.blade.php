@@ -89,6 +89,19 @@
         	
 
         	<p>Catálogo total de {{ $total }} motos</p>
+        
+        @auth
+        	@if( !Auth::user()->email_verified_at)
+        		<div class="alert alert-info">
+                   {{ __('Before proceeding, please check your email for a verification link.') }}
+                    {{ __('If you did not receive the email') }},
+                    <form class="d-inline" method="POST" action="{{ route('verification.resend') }}">
+                        @csrf
+                        <button type="submit" class="btn btn-link p-0 m-0 align-baseline">{{ __('click here to request another') }}</button>.
+                    </form>
+                </div>
+        	@endif
+        @endauth
         	
         </nav>
         @show
