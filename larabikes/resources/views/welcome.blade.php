@@ -13,6 +13,16 @@
 			src="{{asset('images/bikes/bike0.png')}}">
 	</figure>
 	<p>Implementación de un <b>CRUD</b> de motos.</p>
+	
+	<h4>Estas son las últimas motos subidas a Larabikes </h4>
+	
+	<div class="row my-4">
+		<figure class="figure col-3 text-center">
+			<img class="rounded img-fluid">
+		</figure>
+	
+	</div>
+	
 @endsection
 
 @section('enlaces')
