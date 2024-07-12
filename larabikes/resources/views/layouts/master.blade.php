@@ -43,6 +43,10 @@
         				href="{{ route('contacto') }}">Contacto</a>	
         		</li>
         		@auth
+        			<li class="nav-item mr-2">
+            			<a class="nav-link {{ $pagina == 'home'? 'active' : '' }}" 
+            				href="{{ route('home') }}">Mi perfil</a>	
+            		</li>
             		<li class="nav-item mr-2">
             			<a class="nav-link {{ $pagina == 'bikes.create'? 'active' : '' }}" 
             				href="{{ route('bikes.create') }}">Nueva moto</a>	
@@ -69,7 +73,7 @@
 						
                         <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                             <a class="dropdown-item" href="{{ route('home') }}">
-								Perfil
+								{{ __('Profile') }}
 							</a>
                             
                             <a class="dropdown-item" href="{{ route('logout') }}"

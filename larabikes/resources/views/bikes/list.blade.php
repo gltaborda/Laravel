@@ -55,7 +55,7 @@
             	</td>
 				<td>{{ $bike->marca }}</td>
 				<td>{{ $bike->modelo }}</td>
-				<td>{{ $bike->descripcion }}</td>
+				<td class="text-break">{{ $bike->descripcion }}</td>
 				<td>{{ $bike->matricula? $bike->matricula : '-' }}</td>
 				<td class="{{ ($bike->color) == '#000000'? 'text-white' : 'text-dark' }}" 
 				style="background-color:{{ $bike->color }}">{{ $bike->color }}</td>
@@ -76,6 +76,6 @@
 				</td>
 			</tr>
 		@endforeach
-		<tr><td colspan="7">Mostrando {{ sizeof($bikes) }} de {{ $bikes->total() }} motos</td></tr>
+		<tr><td colspan="8">Mostrando {{ sizeof($bikes) }} de {{ $bikes->total() }} motos</td></tr>
 	</table>
 @endsection    		

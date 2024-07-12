@@ -12,10 +12,10 @@ class BikeDeleteRequest extends FormRequest
      *
      * @return bool
      */
-    public function authorize()
+    /*public function authorize()
     {
         return $this->user()->can('delete', $this->bike);
-    }
+    }*/
     
     protected function failedAuthorization(){
         throw new AuthorizationException('No puedes borrar una moto que no es tuya');

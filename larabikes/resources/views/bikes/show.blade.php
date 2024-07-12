@@ -8,7 +8,7 @@
 	<table class="table table-striped table-bordered my-3">
 		<tr>
 			<td>Dueño</td>
-			<td>{{ $bike->user_id }}</td>
+			<td>{{ $bike->user? $bike->user->name : 'Huérfana' }}</td>
 		</tr>
 	
 		<tr>

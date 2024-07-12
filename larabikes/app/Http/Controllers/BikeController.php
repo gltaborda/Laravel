@@ -8,9 +8,13 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\URL;
 use App\Http\Requests\BikeStoreRequest;
 use App\Http\Requests\BikeUpdateRequest;
 use App\Http\Requests\BikeDeleteRequest;
+use Illuminate\Auth\Access\AuthorizationException;
+
 
 class BikeController extends Controller
 {
@@ -225,6 +229,9 @@ class BikeController extends Controller
         // recupera la moto a eliminar
         //$bike = Bike::findOrFail($id);
         
+        // recuerda la URL para redireccionar en el futuro
+        Session::put('returnTo', URL::previous());
+        
         // muestra la vista de confirmación de eliminación
         /*if($request->user()->cant('delete', $bike))
             abort(401, 'No puedes borrar una moto que no es tuya');*/
@@ -238,8 +245,7 @@ class BikeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(BikeDeleteRequest $request, Bike $bike)
-    {
+    public function destroy(BikeDeleteRequest $request, Bike $bike){
         // busca la moto seleccionada
         //$bike = Bike::findOrFail($id);
         
@@ -247,12 +253,21 @@ class BikeController extends Controller
             abort(401, 'No puedes borrar una moto que no es tuya');*/
         
         // borra de la base de datos y tiene foto
-        if($bike->delete() && $bike->imagen)
+        /*if($bike->delete() && $bike->imagen)
             // elimina el fichero
-            Storage::delete(config('filesystems.bikesImageDir').'/'.$bike->imagen);
+            Storage::delete(config('filesystems.bikesImageDir').'/'.$bike->imagen);*/
+        $bike->delete();
+        
+        // comprobamos si hay una dirección de retorno
+        $redirect = Session::has('returnTo') ?
+                    redirect(Session::get('returnTo')) :
+                    redirect()->route('bikes.index');
+        
+        Session::remove('returnTo'); // libera la variable
+        
         
         //redirige a la lista de motos
-        return redirect('bikes')
+        return $redirect
             ->with('success',"Moto $bike->marca $bike->modelo eliminada");
     }
     
@@ -282,6 +297,38 @@ class BikeController extends Controller
         
         return $user->name;
     }*/
+    
+    
+    public function restore(Request $request, int $id){
+        
+        // recuperar moto borrada
+        $bike = Bike::withTrashed()->findOrFail($id);
+        
+        if($request->user()->cant('restore', $bike))
+            throw new AuthorizationException('No tienes permiso para restaurar la moto');
+       
+        $bike->restore();
+        
+        return back()->with('success',
+            "Moto $bike->marca $bike->modelo restaurada correctamente");
+    }
+    
+    public function purge(Request $request){
+        
+        // recuperar moto borrada
+        $bike = Bike::withTrashed()->findOrFail($request->input('bike_id'));
+        
+        if($request->user()->cant('delete', $bike))
+            throw new AuthorizationException('No tienes permiso para borrar la moto');
+        
+        if($bike->forceDelete() && $bike->imagen)
+            // borra también la foto
+            Storage::delete(config('filesystems.bikedImageDir').'/'.$bike->imagen);
+        
+        return back()->with('success',
+            "Moto $bike->marca $bike->modelo eliminada definitivamente");
+    }
+    
     
     
     

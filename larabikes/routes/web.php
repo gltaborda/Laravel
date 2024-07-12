@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BikeController;
 use App\Http\Controllers\WelcomeController;
 use App\Http\Controllers\ContactoController;
+use App\Http\Controllers\HomeController;
 //use App\Models\Bike;
 
 /*
@@ -47,6 +48,12 @@ Route::get('saludar', function(){
 
 Auth::routes(['verify' => true]);
 
+Route::delete('/bikes/purge', [BikeController::class, 'purge'])
+    ->name('bikes.purge');
+
+Route::get('/bikes/{bike}/restore', [BikeController::class, 'restore'])
+    ->name('bikes.restore');
+
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::get('/contacto', [ContactoController::class, 'index'])
@@ -68,10 +75,10 @@ Route::get('bikes/search/{marca?}/{modelo?}', [BikeController::class, 'search'])
 Route::resource('bikes',BikeController::class);
 
 Route::get('bikes/{bike}/delete', [BikeController::class, 'delete'])
-->name('bikes.delete');
+    ->name('bikes.delete');
 
-Route::delete('/bikes/{bike}', [Bikecontroller::class, 'destroy'])
-->name('bikes.destroy')->middleware('signed');
+Route::delete('/bikes/{bike}', [BikeController::class, 'destroy'])
+    ->name('bikes.destroy')->middleware('signed');
 
 Route::fallback([WelcomeController::class, 'index']);
 
