@@ -34,9 +34,9 @@
         				href="{{ route('portada') }}">Inicio</a>	
         		</li>
         		<li class="nav-item mr-2">
-        			<a class="nav-link {{$pagina == 'news.index' ||
-        			 	$pagina == 'bikes.search'?'active' : ''}}" 
-        			 	href="{{ route('news.index') }}">Garaje</a>	
+        			<a class="nav-link {{$pagina == 'noticias.index' ||
+        			 	$pagina == 'noticias.search'?'active' : ''}}" 
+        			 	href="{{ route('noticias.index') }}">Garaje</a>	
         		</li>
         		<li class="nav-item mr-2">
         			<a class="nav-link {{ $pagina == 'contacto'?'active' : '' }}" 
@@ -44,8 +44,8 @@
         		</li>
         		@auth
             		<li class="nav-item mr-2">
-            			<a class="nav-link {{ $pagina == 'news.create'? 'active' : '' }}" 
-            				href="{{ route('news.create') }}">Nueva noticia</a>	
+            			<a class="nav-link {{ $pagina == 'noticias.create'? 'active' : '' }}" 
+            				href="{{ route('noticias.create') }}">Nueva noticia</a>	
             		</li>
             	@endauth
                 <!-- Authentication Links -->
@@ -88,7 +88,7 @@
         	
         	
 
-        	<p>Catálogo total de {{ $total }} motos</p>
+        	
         
         @auth
         	@if( !Auth::user()->email_verified_at)
@@ -129,7 +129,7 @@
         		</x-alert>
         	@endif
         	
-        	@yield('contenido')
+        	@yield('content')
         
         	
 			
@@ -145,7 +145,7 @@
         <!-- PARTE INFERIOR -->
         @section('pie')
         <footer class="page-footer font-small p-2 bg-light">
-        	<p>Aplicación creada por {{ $autor }} como proyecto de fin de curso.
+        	<p>Aplicación creada por  como proyecto de fin de curso.
         	Desarrollada haciendo uso de <b>Laravel</b> y <b>Bootstrap</b>.</p>
         </footer>
         @show
