@@ -21,7 +21,7 @@
 		@foreach($ultimas->all() as $bike)
     		<figure class="figure col-3 text-center">
     			<img class="rounded img-fluid" src="{{ asset('storage/'.config('filesystems.bikesImageDir')).'/'.$bike->imagen }}">
-    			<p>{{ $bike->marca }} {{ $bike->modelo }}</p>
+    			<a href="{{ route('bikes.show', $bike->id) }}">{{ $bike->marca }} {{ $bike->modelo }}</a>
     		</figure>
 		@endforeach
 	</div>

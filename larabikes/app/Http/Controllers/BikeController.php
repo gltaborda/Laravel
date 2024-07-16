@@ -99,6 +99,8 @@ class BikeController extends Controller
         
         $bike = Bike::create($datos);
         
+        if($request->user()->bikes->count() == 1)
+            FirstBikeCreated::dispatch($bike, $request->user());
         
         // redirección a los detalles de la moto creada
         return redirect()->route('bikes.show',$bike->id)

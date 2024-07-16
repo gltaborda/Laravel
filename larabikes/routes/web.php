@@ -5,7 +5,9 @@ use App\Http\Controllers\BikeController;
 use App\Http\Controllers\WelcomeController;
 use App\Http\Controllers\ContactoController;
 use App\Http\Controllers\HomeController;
-//use App\Models\Bike;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\UserController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -45,6 +47,38 @@ Route::get('saludar', function(){
 
 
 // FIN DE LA ZONA PARA PRUEBAS
+
+Route::get('/bloqueado', [UserController::class, 'blocked'])
+    ->name('user.blocked');     
+
+Route::prefix('admin')->middleware('auth', 'is_admin')->group(function(){
+    
+    // motos eliminadas
+    Route::get('deletedbikes', [AdminController::class, 'deletedBikes'])
+        ->name('admin.deleted.bikes');
+    
+    // detalles de un usuario
+    Route::get('usuario/{user}/detalles', [AdminController::class, 'userShow'])
+        ->name('admin.user.show');
+        
+    // listado de usuarios
+    Route::get('usuarios', [AdminController::class, 'userList'])
+        ->name('admin.users');
+    
+    // búsqueda de usuarios
+    Route::get('usuario/buscar', [AdminController::class, 'userSearch'])
+        ->name('admin.users.search');
+    
+    // añadir rol
+    Route::post('role', [AdminController::class, 'setRole'])
+        ->name('admin.user.setRole');
+    
+    // quitar rol
+    Route::delete('role', [AdminController::class, 'removeRole'])
+        ->name('admin.user.removeRole');
+        
+});
+
 
 Auth::routes(['verify' => true]);
 
