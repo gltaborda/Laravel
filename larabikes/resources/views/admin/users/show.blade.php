@@ -50,9 +50,7 @@
     			<td>
     				<form method="POST" action="{{ route('admin.user.setRole') }}">
     					@csrf
-    					@method('POST')
-    					<input type="hidden" name="user_id" value="{{ $user->id }}">
-    					<input type="hidden" name="role_id" value="{{ $rol->id }}">
+     					<input type="hidden" name="user_id" value="{{ $user->id }}">
     					<select class="form-control w-50 d-inline" name="role_id">
     					@foreach($user->remainingRoles() as $rol)
     						<option value="{{ $rol->id }}">{{ $rol->role }}</option>

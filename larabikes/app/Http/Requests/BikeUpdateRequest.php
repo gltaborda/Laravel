@@ -14,10 +14,10 @@ class BikeUpdateRequest extends BikeStoreRequest
      */
     
     // Hereda del store, hace lo mismo por el momento
-    /*public function authorize()
+    public function authorize()
     {
         return $this->user()->can('update', $this->bike);
-    }*/
+    }
 
     protected function failedAuthorization(){
         throw new AuthorizationException('No puedes editar una moto que no es tuya');

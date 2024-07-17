@@ -27,8 +27,8 @@ class AppServiceProvider extends ServiceProvider
     public function boot(){
         
         Paginator::useBootstrap();
-        View::share('autor', env('APP_AUTHOR'));
-        
+        View::share('autor', env('APP_AUTHOR', 'test'));
+        View::share('centro', env('APP_CENTER'));
     }
     
     

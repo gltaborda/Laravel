@@ -8,6 +8,8 @@ use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvi
 use Illuminate\Support\Facades\Event;
 use App\Events\FirstBikeCreated;
 use App\Listeners\SendCongratulationEmail;
+use App\Events\ThousandVisits;
+use App\Listeners\ThousandVisitsEmail;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -23,6 +25,10 @@ class EventServiceProvider extends ServiceProvider
         
         FirstBikeCreated::class => [
             SendCongratulationEmail::class,
+        ],
+        
+        ThousandVisits::class => [
+            ThousandVisitsEmail::class,
         ]
     ];
 

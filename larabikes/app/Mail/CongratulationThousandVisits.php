@@ -8,7 +8,7 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use App\Models\Bike;
 
-class Congratulation extends Mailable
+class CongratulationThousandVisits extends Mailable
 {
     use Queueable, SerializesModels;
     
@@ -29,7 +29,7 @@ class Congratulation extends Mailable
     public function build()
     {
         return $this->from('no-reply@larabikes.com')
-                        ->subject('¡Felicidades!')
+                        ->subject('¡Felicidades por las mil visitas!')
                         ->view('emails.congratulation');
     }
 }

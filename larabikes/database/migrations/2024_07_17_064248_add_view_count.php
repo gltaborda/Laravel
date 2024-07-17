@@ -4,9 +4,9 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddCvDescriptionYear extends Migration
+class AddViewCount extends Migration
 {
-    /**
+     /**
      * Run the migrations.
      *
      * @return void
@@ -14,9 +14,7 @@ class AddCvDescriptionYear extends Migration
     public function up()
     {
         Schema::table('bikes', function(Blueprint $table){
-            $table->string('descripcion', 100)->after('modelo')->nullable();
-            $table->integer('cv')->/*unique() ups->*/after('kms')->nullable();
-            $table->integer('year')->after('cv')->nullable();
+            $table->integer('cantidad_visitas')->default(0);
         });
     }
     
@@ -28,9 +26,7 @@ class AddCvDescriptionYear extends Migration
     public function down()
     {
         Schema::tables('bikes', function(Blueprint $table){
-            $table->dropColumn('descripcion');
-            $table->dropColumn('cv');
-            $table->dropColumn('year');
+            $table->dropColumn('cantidad_visitas');
         });
     }
 }

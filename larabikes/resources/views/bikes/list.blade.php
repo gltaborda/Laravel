@@ -25,7 +25,7 @@
 
         <button type="submit" class="col btn btn-primary btn-sm mr-2 my-2">Buscar</button>	
         	
-        <a href="{{ route('bikes.index') }}" class="col btn btn-primary btn-sm mr-2 my-2" role="button">Quitar filtro</a>	
+        <a href="{{ route('bikes.index') }}" class="col btn btn-secondary btn-sm mr-2 my-2" role="button">Quitar filtro</a>	
             	
 		
 		

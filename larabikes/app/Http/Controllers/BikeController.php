@@ -14,6 +14,9 @@ use App\Http\Requests\BikeStoreRequest;
 use App\Http\Requests\BikeUpdateRequest;
 use App\Http\Requests\BikeDeleteRequest;
 use Illuminate\Auth\Access\AuthorizationException;
+use App\Events\FirstBikeCreated;
+use App\Events\ThousandVisits;
+
 
 
 class BikeController extends Controller
@@ -128,6 +131,10 @@ class BikeController extends Controller
         // recupera la moto con el id deseado
         // si no la encuentra generará un error 404
         //$bike = Bike::findOrFail($id);
+        $bike->incrementVisitas();
+        if(($bike->cantidad_visitas % 1000) == 0)
+            
+            ThousandVisits::dispatch($bike, $bike->user);
         
         // carga la vista correspondiente y le pasa la moto
         return view('bikes.show',['bike'=>$bike]);
@@ -146,8 +153,8 @@ class BikeController extends Controller
         //$bike = Bike::findOrFail($id);
         
         // policies en controlador
-        /*if($request->user()->cant('delete', $bike))
-         abort(401, 'No puedes borrar una moto que no es tuya');*/
+        if($request->user()->cant('delete', $bike))
+            abort(401, 'No puedes borrar una moto que no es tuya');
         
         // carga la vista con el formulario para modificar la moto
         return view('bikes.update',['bike'=>$bike]);

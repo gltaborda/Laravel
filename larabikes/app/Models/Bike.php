@@ -23,5 +23,10 @@ class Bike extends Model
     public function user(){
         return $this->belongsTo('App\Models\User');
     }
+    
+    public function incrementVisitas(){
+        $this->cantidad_visitas++;
+        return $this->save();
+    }
 
 }
