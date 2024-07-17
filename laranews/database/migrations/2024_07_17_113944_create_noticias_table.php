@@ -20,22 +20,18 @@ class CreateNoticiasTable extends Migration
             $table->string('tema',255);
             $table->string('texto',255);
             $table->string('imagen',255);
-            $table->int('visitas',255);
-            $table->string('tema',255);
-
-            $table->deleted_at();
-            $table->published_at();
-            $table->rejected();
-            $table->unsignedBigInteger('user_id')->nullable();
-            
-            $table->foreign('user_id')
-                ->references('id')->on('users')
-                ->onUpdate('cascade')->onDelete('cascade');
-            
+            $table->integer('visitas')->default(0);
             $table->timestamps();
+            $table->timestamp('published_at')->nullable();
+            
+            $table->boolean('rejected')->default(false);
+            $table->unsignedBigInteger('user_id')->nullable();
+            $table->foreign('user_id')
+            ->references('id')->on('users')
+            ->onUpdate('cascade')->onDelete('cascade');
         });
     }
-
+    
     /**
      * Reverse the migrations.
      *
@@ -43,6 +39,9 @@ class CreateNoticiasTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('noticias');
+        Schema::table('noticias', function (Blueprint $table) {
+            $table->dropForeign('user_id');
+        });
+            Schema::dropIfExists('noticias');
     }
 }
