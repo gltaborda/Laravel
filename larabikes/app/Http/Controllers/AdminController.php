@@ -11,7 +11,7 @@ class AdminController extends Controller
 {
     public function deletedBikes(){
         
-        $bikes = Bike::onlyTrashed()
+        $bikes = Bike::onlyTrashed()->orderBy('id', 'DESC')
                 ->paginate(config('pagination.bikes', 10));
         
         return view('admin.bikes.deleted', ['bikes' => $bikes]);

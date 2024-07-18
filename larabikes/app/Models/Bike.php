@@ -20,6 +20,8 @@ class Bike extends Model
         ->latest()->limit($number)->get();   
     }
     
+    // permite hacer $bike->user para recuperar directamente un user
+    // mientras que hacer $bike->user() recupera una collection
     public function user(){
         return $this->belongsTo('App\Models\User');
     }

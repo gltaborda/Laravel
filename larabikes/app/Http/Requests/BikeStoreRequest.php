@@ -31,8 +31,8 @@ class BikeStoreRequest extends FormRequest
             'kms'           => 'required|integer|min:0',
             'cv'            => 'sometimes|nullable|integer|min:90|max:260',
             'year'          => 'sometimes|nullable|integer|min:1980|max:2024',
-            'matriculada'   => 'sometimes',
-            'matricula'     => 'required_with:matricula,1|nullable|
+            'matriculada'   => 'required_with:matricula',
+            'matricula'     => 'required_if:matriculada,1|nullable|
                                 regex:/^\d{4}[B-DF-HJ-NP-Z]{3}$/|
                                 unique:bikes',
             'color'         => 'nullable|regex:/^#[\dA-F]{6}$/i',
