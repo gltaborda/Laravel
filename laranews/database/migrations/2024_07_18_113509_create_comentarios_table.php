@@ -1,4 +1,3 @@
-
 <?php
 
 use Illuminate\Database\Migrations\Migration;
@@ -21,16 +20,16 @@ class CreateComentariosTable extends Migration
             
             $table->unsignedBigInteger('user_id')->nullable();
             $table->foreign('user_id')
-                ->references('id')->on('users')
-                ->onUpdate('cascade')->onDelete('cascade');
+            ->references('id')->on('users')
+            ->onUpdate('cascade')->onDelete('cascade');
             
             $table->unsignedBigInteger('noticia_id')->nullable();
             $table->foreign('noticia_id')
-                ->references('id')->on('noticias')
-                ->onUpdate('cascade')->onDelete('cascade');
+            ->references('id')->on('noticias')
+            ->onUpdate('cascade')->onDelete('cascade');
         });
     }
-
+    
     /**
      * Reverse the migrations.
      *
@@ -42,8 +41,7 @@ class CreateComentariosTable extends Migration
             $table->dropForeign('user_id');
             $table->dropForeign('noticia_id');
         });
-        
-        Schema::dropIfExists('comentarios');
+            
+            Schema::dropIfExists('comentarios');
     }
 }
-

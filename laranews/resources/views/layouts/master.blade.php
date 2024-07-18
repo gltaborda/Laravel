@@ -129,7 +129,7 @@
         		</x-alert>
         	@endif
         	
-        	@yield('content')
+        	@yield('contenido')
         
         	
 			

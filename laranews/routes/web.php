@@ -46,6 +46,9 @@ Route::delete('/noticias/{noticia}', [NoticiaController::class, 'destroy']);
 Route::get('/contacto', [ContactoController::class, 'index'])
 ->name('contacto');
 
+Route::post('/contacto', [ContactoController::class, 'send'])
+->name('contacto.email');
+
 
 Route::get('/', [WelcomeController::class, 'index'])
     ->name('portada');

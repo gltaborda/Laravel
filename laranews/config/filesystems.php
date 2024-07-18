@@ -14,7 +14,9 @@ return [
     */
 
     'default' => env('FILESYSTEM_DRIVER', 'local'),
-
+    
+    // dirección de imágenes de prueba (todas de Messi)
+    'testImageDir' => 'images/messi/',
     /*
     |--------------------------------------------------------------------------
     | Filesystem Disks

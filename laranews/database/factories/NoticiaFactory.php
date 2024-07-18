@@ -14,7 +14,14 @@ class NoticiaFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'titulo' => $this->faker->sentence(),
+            'tema' => $this->faker->randomElement([
+                'Deporte', 'Política', 'Economía', 'Arte', 'Salud',
+                'Cultura', 'Viajes', 'Tecnología','Internacional'
+            ]),
+            'texto' => $this->faker->paragraph(),
+            'imagen' => 'messi'.$this->faker->numberBetween(1,10).'jpg',
+            'user_id' => $this->faker->numberBetween(1,10)
         ];
     }
 }
