@@ -40,4 +40,37 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+    
+    public function noticias(){
+        return $this->hasMany('App\Models\Noticia');
+    }
+    
+    public function roles(){
+        return $this->belongsToMany('App\Models\Role');
+    }
+    
+    public function remainingRoles(){
+        
+        $actualRoles = $this->roles;
+        $allRoles = Role::all();
+        
+        return $allRoles->diff($actualRoles);
+    }
+    
+    public function hasRole($roleNames):bool{
+        
+        if(!is_array($roleNames))
+            $roleNames = [$roleNames];
+            
+            foreach($this->roles as $role){
+                if(in_array($role->role, $roleNames))
+                    return true;
+            }
+            
+            return false;
+    }
+    
+    public function isOwner(Noticia $noticia):bool{
+        return $this->id == $noticia->user_id;
+    }
 }

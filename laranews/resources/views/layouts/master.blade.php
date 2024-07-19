@@ -36,7 +36,7 @@
         		<li class="nav-item mr-2">
         			<a class="nav-link {{$pagina == 'noticias.index' ||
         			 	$pagina == 'noticias.search'?'active' : ''}}" 
-        			 	href="{{ route('noticias.index') }}">Garaje</a>	
+        			 	href="{{ route('noticias.index') }}">Lista de noticias</a>	
         		</li>
         		<li class="nav-item mr-2">
         			<a class="nav-link {{ $pagina == 'contacto'?'active' : '' }}" 
@@ -62,7 +62,7 @@
                         </li>
                     @endif
                 @else
-                    <li class="nav-item ms-auto dropdown">
+                    <li class="nav-item ms-auto dropdown {{ $pagina == 'noticias.home'? 'active' : '' }}">
                         <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                             {{ Auth::user()->name }} ({{ Auth::user()->email }})
                         </a>

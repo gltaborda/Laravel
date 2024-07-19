@@ -1,23 +1,72 @@
-@extends('layouts.app')
+@extends('layouts.master')
 
 @section('contenido')
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Dashboard') }}</div>
-
-                <div class="card-body">
-                    @if (session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
-                        </div>
-                    @endif
-
-                    {{ __('You are logged in!') }}
+    	<div class="col-md-8">
+        	<div class="card">
+            	<div class="card-header">Perfil de {{ Auth::user()->name }}</div>
+           		<div class="card-body">
+                    <table class="table">
+                		<tr>
+                			<td>Nombre</td>
+                			<td>{{ Auth::user()->name }}</td>
+                		</tr>
+                		<tr>
+                			<td>E-mail</td>
+                			<td>{{ Auth::user()->email }}</td>
+                		</tr>
+                		<tr>
+                			<td>Miembro desde</td>
+                			<td>{{ Auth::user()->created_at }}</td>
+                		</tr>
+                		<tr>
+                			<td>Verificado</td>
+                			<td>{{ Auth::user()->email_verified_at? 'Si' : 'No' }}</td>
+                		</tr>
+                	</table>   
                 </div>
             </div>
+    
         </div>
     </div>
+    
+    	<table class="table caption-top table-striped table-bordered my-3">
+    		<caption>Mis noticias</caption>
+    		<tr>
+    			<th>ID</th>
+    			<th>Imagen</th>
+    			<th>Titulo</th>
+    			<th>Tema</th>
+    			<th>Visitas</th>
+    			<th>Operaciones</th>
+    		</tr>
+    		@foreach($noticias as $noticia)
+    			<tr>
+    				<td>{{ $noticia->id }}</td>
+    				<td class="text-start" style="max-width: 70px">
+    					<img class="rounded" style="max-width: 100%"
+            				alt="Imagen de la noticia #{{ $noticia->id }}"
+            				title="Imagen de la noticia #{{ $noticia->id }}"
+            				src="{{ $noticia->imagen?
+                			asset('storage/'.config('filesystems.noticiasImageDir')).'/'.$noticia->imagen :
+                			asset('storage/'.config('filesystems.noticiasImageDir')).'/default.jpg' }}">
+                	</td>
+    				<td>{{ $noticia->titulo }}</td>
+                	<td>{{ $noticia->tema }}</td>
+    				<td>{{ $noticia->visitas }}</td>
+    				<td class="text-center">
+    					<a href="{{ route('noticias.show',$noticia->id)}}">
+    					<img height="30" width="30" src="{{ asset('/images/buttons/show.png') }}"
+    					alt="Ver detalles" title="Ver detalles"></a>
+				</td>
+    			</tr>
+    		@endforeach
+    		<tr>
+    			<td colspan="2">{{ $noticias->links() }}</td>
+    			<td class="text-end" colspan="4">Mostrando {{ sizeof($noticias) }} de {{ $noticias->total() }} noticias</td>
+    		</tr>
+    	</table>
+    	
 </div>
 @endsection

@@ -17,6 +17,7 @@ return [
     
     // dirección de imágenes de prueba (todas de Messi)
     'testImageDir' => 'images/messi/',
+    'noticiasImageDir' => 'images/news/',
     /*
     |--------------------------------------------------------------------------
     | Filesystem Disks

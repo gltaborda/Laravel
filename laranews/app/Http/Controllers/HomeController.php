@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Noticia;
+use App\Models\User;
 
 class HomeController extends Controller
 {
@@ -21,8 +23,11 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index()
+    public function index(Request $request)
     {
-        return view('home');
+        $noticias = $request->user()->noticias()->latest()
+        ->paginate(config('pagination.noticias',10));
+        
+        return view('home', ['noticias' => $noticias]);
     }
 }

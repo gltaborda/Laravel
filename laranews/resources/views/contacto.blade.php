@@ -1,6 +1,6 @@
 @extends('layouts.master')
 
-@section('titulo', 'Contactar con Larabikes')
+@section('titulo', 'Contactar con Laranews')
 
 @section('subtitulo')
 @endsection
@@ -34,9 +34,9 @@
 					maxlength="255" required="required">{{ old('mensaje') }}</textarea>
 			</div>
 			<div class="form-group row my-4">
-				<label for="inputFichero" class="form-label">Fichero (gif):</label>
+				<label for="inputFichero" class="form-label">Fichero (pdf):</label>
 				<input name="fichero" type="file" class="form-control-file" id="inputFichero" 
-					accept="image/gif">
+					accept="application/pdf">
 			</div>
 			<div class="form-group row">
         		<button type="submit" class="btn btn-success m-2 mt-5">Enviar</button>
@@ -54,7 +54,7 @@
 
 @section('enlaces')
 	@parent
-	<a href="{{route('noticias.index')}}" class="btn btn-primary my-1 mr-2">Garaje</a>
+	<a href="{{route('noticias.index')}}" class="btn btn-primary my-1 mr-2">Lista de noticias</a>
 @endsection
 
 
