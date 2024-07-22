@@ -26,8 +26,11 @@ class HomeController extends Controller
     public function index(Request $request)
     {
         $noticias = $request->user()->noticias()->latest()
-        ->paginate(config('pagination.noticias',10));
+            ->paginate(config('pagination.noticias',10));
         
-        return view('home', ['noticias' => $noticias]);
+        $comentarios = $request->user()->comentarios()->latest()
+            ->paginate(config('pagination.noticias',10));
+        
+        return view('home', ['noticias' => $noticias, 'comentarios' => $comentarios]);
     }
 }

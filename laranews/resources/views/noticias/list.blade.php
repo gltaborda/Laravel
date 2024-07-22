@@ -15,37 +15,48 @@
 		@endauth
 	</div>
 
+	<form method="GET" class="col-6 row" action="{{ route('noticias.search') }}">
+	
+		<input name="titulo" type="text" class="col form-control m-2" 
+		placeholder="titulo" maxlength="16" value="{{ $titulo ?? '' }}">
 		
-	<table class="table table-striped table-bordered">
-		<tr>
-			<th>ID</th>
-			<th>Imagen</th>
-			<th>Titulo</th>
-			<th>Tema</th>
-			<th>Visitas</th>
-			<th>Operaciones</th>
-		</tr>
-		@foreach($noticias as $noticia)
-			<tr>
-				<td>{{ $noticia->id }}</td>
-				<td class="text-start" style="max-width: 70px">
-					<img class="rounded" style="max-width: 100%"
-        				alt="Imagen de la noticia #{{ $noticia->id }}"
-        				title="Imagen de la noticia #{{ $noticia->id }}"
-        				src="{{ $noticia->imagen?
+		<div class="form-group col text-end m-2">
+    		<select class="form-control w-auto d-inline" name="tema" placeholder="tema">
+    			<option value="" selected>Tema</option>
+    			<option value="Arte">Arte</option>
+    			<option value="Cultura">Cultura</option>
+    			<option value="Deporte">Deporte</option>
+    			<option value="Economía">Economía</option>
+    			<option value="Política">Política</option>
+    			<option value="Salud">Salud</option>
+    			<option value="Tecnología">Tecnología</option>
+    			<option value="Viajes">Viajes</option>
+    		</select>
+    	</div>
+
+        <button type="submit" class="col btn btn-primary btn-sm mr-2 my-2">Buscar</button>	
+        	
+        <a href="{{ route('noticias.index') }}" class="col btn btn-secondary btn-sm mr-2 my-2" role="button">Quitar filtro</a>	
+
+	</form>
+		
+	<div class="card-columns">
+	@foreach($noticias as $noticia)
+		<div class="card mx-auto my-3" style="width: 40rem;">
+    		<h5><b>{{ $noticia->tema }}</b></h5>
+    		<img class="card-img-top border rounded" src="{{ $noticia->imagen?
             			asset('storage/'.config('filesystems.noticiasImageDir')).'/'.$noticia->imagen :
             			asset('storage/'.config('filesystems.noticiasImageDir')).'/default.jpg' }}">
-            	</td>
-				<td>{{ $noticia->titulo }}</td>
-				<td>{{ $noticia->tema }}</td>
-				<td>{{ $noticia->visitas }}</td>
-				<td class="text-center">
-					<a href="{{ route('noticias.show',$noticia->id)}}">
-					<img height="30" width="30" src="{{ asset('/images/buttons/show.png') }}"
-					alt="Ver detalles" title="Ver detalles"></a>
-				</td>
-			</tr>
-		@endforeach
-		<tr><td colspan="7">Mostrando {{ sizeof($noticias) }} de {{ $noticias->total() }} noticias</td></tr>
-	</table>
+    		<div class="card-body">
+    			<h2 class="card-title text-center"><b>{{ $noticia->titulo }}</b></h2>
+    			<p class="card-text">{{ substr($noticia->texto, 0, 40) }}...</p>
+    			<a href="{{ route('noticias.show', $noticia->id) }}" class="btn btn-primary">Ver más</a>
+    		</div>
+    	</div>
+	@endforeach
+	</div>
+
+	<div>{{ $noticias->links() }}</div>
+	<div class="text-end" >Mostrando {{ sizeof($noticias) }} de {{ $noticias->total() }} noticias</div>
+
 @endsection    		

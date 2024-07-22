@@ -37,7 +37,7 @@
     			<th>ID</th>
     			<th>Imagen</th>
     			<th>Titulo</th>
-    			<th>Tema</th>
+    			<th>Texto</th>
     			<th>Visitas</th>
     			<th>Operaciones</th>
     		</tr>
@@ -52,14 +52,20 @@
                 			asset('storage/'.config('filesystems.noticiasImageDir')).'/'.$noticia->imagen :
                 			asset('storage/'.config('filesystems.noticiasImageDir')).'/default.jpg' }}">
                 	</td>
-    				<td>{{ $noticia->titulo }}</td>
-                	<td>{{ $noticia->tema }}</td>
+    				<td class="text-break">{{ $noticia->titulo }}</td>
+                	<td class="text-break">{{ substr($noticia->texto, 0, 50) }}...</td>
     				<td>{{ $noticia->visitas }}</td>
-    				<td class="text-center">
+    				<td class="text-center" style="width: 120px;">
     					<a href="{{ route('noticias.show',$noticia->id)}}">
     					<img height="30" width="30" src="{{ asset('/images/buttons/show.png') }}"
-    					alt="Ver detalles" title="Ver detalles"></a>
-				</td>
+    						alt="Ver detalles" title="Ver detalles"></a>
+    					<a href="{{ route('noticias.edit',$noticia->id) }}">
+        				<img height="30" width="30" src="{{ asset('/images/buttons/update.png') }}"
+        					alt="Modificar" title="Modificar"></a>
+        				<a href="{{ route('noticias.delete',$noticia->id) }}">
+        				<img height="30" width="30" src="{{ asset('/images/buttons/delete.png') }}"
+        					alt="Borrar" title="Borrar"></a>
+					</td>
     			</tr>
     		@endforeach
     		<tr>
@@ -67,6 +73,32 @@
     			<td class="text-end" colspan="4">Mostrando {{ sizeof($noticias) }} de {{ $noticias->total() }} noticias</td>
     		</tr>
     	</table>
+    	
+    	<table class="table caption-top table-striped table-bordered my-3">
+    		<caption>Comentarios</caption>
+    		<tr>
+    			<th>Usuario</th>
+    			<th>Texto</th>
+    			<th>Operaciones</th>
+    		</tr>
+    		@foreach($comentarios as $comentario)
+    			<tr>
+    				<td>{{ $comentario->user->name }}</td>
+    				<td>{{ $comentario->texto }}</td>
+    				<td class="text-center">
+    					<a href="{{ route('noticias.show',$comentario->noticia_id) }}">
+    					<img height="30" width="30" src="{{ asset('/images/buttons/show.png') }}"
+    						alt="Ver detalles" title="Ver detalles"></a>
+    				</td>
+    			</tr>
+    		@endforeach
+    		<tr>
+    			<td colspan="1">{{ $comentarios->links() }}</td>
+    			<td class="text-end" colspan="2">Mostrando {{ sizeof($comentarios) }} de {{ $comentarios->total() }} comentarios</td>
+    		</tr>
+    	</table>
+    	
+    	
     	
 </div>
 @endsection

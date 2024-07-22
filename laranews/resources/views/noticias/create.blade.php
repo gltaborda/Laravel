@@ -28,7 +28,7 @@
  			<div class="form-group col text-end m-2">
  				<label for="inputTema" class="col-sm-2 m-2 col-form-label">Tema</label>
         		<input name="tema" type="hidden" value="{{ old('tema') }}">
-        		<select class="form-control w-50 d-inline" name="role_id">
+        		<select class="form-control w-50 d-inline" name="tema">
         			<option value="Arte">Arte</option>
         			<option value="Cultura">Cultura</option>
         			<option value="Deporte">Deporte</option>

@@ -25,8 +25,17 @@ class Noticia extends Model
         return $this->belongsTo('App\Models\User');
     }
     
+    public function comentarios(){
+        return $this->hasMany('App\Models\Comentario');
+    }
+    
     public function incrementVisitas(){
         $this->visitas++;
         return $this->save();
     }
+    
+    public function allTemas(){
+        return Noticia::select('tema')->distinct()->get();
+    } 
+    
 }

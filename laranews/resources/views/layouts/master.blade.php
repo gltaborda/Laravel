@@ -145,7 +145,7 @@
         <!-- PARTE INFERIOR -->
         @section('pie')
         <footer class="page-footer font-small p-2 bg-light">
-        	<p>Aplicación creada por  como proyecto de fin de curso.
+        	<p>Aplicación creada por {{ $autor }} como proyecto de fin de curso.
         	Desarrollada haciendo uso de <b>Laravel</b> y <b>Bootstrap</b>.</p>
         </footer>
         @show

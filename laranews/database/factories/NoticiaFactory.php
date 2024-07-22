@@ -20,7 +20,7 @@ class NoticiaFactory extends Factory
                 'Cultura', 'Viajes', 'Tecnología','Internacional'
             ]),
             'texto' => $this->faker->paragraph(),
-            'imagen' => 'messi'.$this->faker->numberBetween(1,10).'jpg',
+            'imagen' => 'messi'.$this->faker->numberBetween(1,10).'.jpg',
             'user_id' => $this->faker->numberBetween(1,10)
         ];
     }
