@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Noticia;
 use App\Http\Requests\ComentarioRequest;
 use App\Models\Comentario;
+use App\Http\Requests\ComentarioDeleteRequest;
 
 class ComentarioController extends Controller
 {
@@ -27,9 +28,14 @@ class ComentarioController extends Controller
             ->with('success',"Comentario guardado en la noticia.");
     }
     
-    public function delete(ComentarioDeleteRequest $request, Noticia $noticia)
+    public function delete(ComentarioDeleteRequest $request)
     {
-        //
+        // recupero el comentario del input, no funciona si recibe comentario    
+        $comentario = Comentario::findOrFail($request->input('id'));
+        
+        $comentario->delete();
+        
+        return back()->with('success',"Comentario eliminado");
     }
     
 }

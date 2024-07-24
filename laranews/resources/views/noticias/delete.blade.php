@@ -29,6 +29,5 @@
 
 @section('enlaces')
 	@parent
-	<a href="{{route('noticias.index')}}" class="btn btn-primary my-1 mr-2">Garaje</a>	
     <a href="{{route('noticias.show',$noticia->id)}}" class="btn btn-secondary my-1 mr-2">Volver a detalles</a>
 @endsection

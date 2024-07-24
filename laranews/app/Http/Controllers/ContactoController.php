@@ -16,7 +16,7 @@ class ContactoController extends Controller
         
         $request->validate([
             'email'     => 'required|email:rfc',
-            'fichero'   => 'sometimes|file|mimes:gif'
+            'fichero'   => 'sometimes|file|mimes:pdf'
         ]);
         
         $mensaje = new \stdClass();
@@ -31,7 +31,7 @@ class ContactoController extends Controller
         $mensaje->nombreOriginal = $request->hasFile('fichero')?
         $request->file('fichero')->getClientOriginalName() : NULL;
         
-        Mail::to('contacto@larabikes.com')->send(new Contact($mensaje));
+        Mail::to('contacto@laranews.com')->send(new Contact($mensaje));
         
         return redirect()->route('portada')
             ->with('success','Mensaje enviado correctamente.');

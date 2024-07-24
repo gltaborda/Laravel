@@ -31,22 +31,39 @@
         	<ul class="nav nav-pills my-2">
         		<li class="nav-item mr-2">
         			<a class="nav-link {{ $pagina == 'portada'? 'active' : '' }}" 
-        				href="{{ route('portada') }}">Inicio</a>	
-        		</li>
-        		<li class="nav-item mr-2">
-        			<a class="nav-link {{$pagina == 'noticias.index' ||
-        			 	$pagina == 'noticias.search'?'active' : ''}}" 
-        			 	href="{{ route('noticias.index') }}">Lista de noticias</a>	
+        				href="{{ route('portada') }}">Portada</a>	
         		</li>
         		<li class="nav-item mr-2">
         			<a class="nav-link {{ $pagina == 'contacto'?'active' : '' }}" 
         				href="{{ route('contacto') }}">Contacto</a>	
         		</li>
+        		
+        		
+        		
         		@auth
+        			@can('create', App\Models\Noticia::class)
             		<li class="nav-item mr-2">
             			<a class="nav-link {{ $pagina == 'noticias.create'? 'active' : '' }}" 
             				href="{{ route('noticias.create') }}">Nueva noticia</a>	
             		</li>
+            		@endcan
+            		
+            		@if(Auth::user()->hasRole('editor'))
+            		<li class="nav-item mr-2">
+            			<a class="nav-link {{$pagina == 'noticias.index' ||
+            			 	$pagina == 'noticias.search'?'active' : ''}}" 
+            			 	href="{{ route('noticias.index') }}">Edición de noticias</a>	
+            		</li>
+            		@endif
+            		
+            		@if(Auth::user()->hasRole('administrador'))
+                		<li class="nav-item mr-2">
+                			<a class="nav-link 
+                				{{ $pagina == 'admin.users' || $pagina == 'admin.users.search' ? 'active' : '' }}" 
+                				href="{{ route('admin.users') }}">Gestión usuarios</a>	
+                		</li>
+            		@endif
+            		
             	@endauth
                 <!-- Authentication Links -->
                 @guest
@@ -138,7 +155,7 @@
         
         <div class="btn-group" role="group" aria-label="Links">
     		@section('enlaces')
-				<a href="{{route('portada')}}" class="btn btn-primary my-1 mr-2">Inicio</a>
+				<a href="{{route('portada')}}" class="btn btn-primary my-1 mr-2">Portada</a>
 			@show
 		</div>
         

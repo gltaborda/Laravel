@@ -7,12 +7,6 @@
 @section('contenido')	
 	<div class="row">
 		<div class="col-6 text-start">{{ $noticias->links() }}</div>
-		@auth
-		<div class="col-6 text-end">
-			<p>Nueva noticia <a href="{{ route('noticias.create') }}"
-				class="btn btn-success ml-2">+</a></p>
-		</div>
-		@endauth
 	</div>
 
 	<form method="GET" class="col-6 row" action="{{ route('noticias.search') }}">
@@ -57,6 +51,6 @@
 	</div>
 
 	<div>{{ $noticias->links() }}</div>
-	<div class="text-end" >Mostrando {{ sizeof($noticias) }} de {{ $noticias->total() }} noticias</div>
+	<div class="text-end" >Mostrando {{ sizeof($noticias) }} de {{ $noticias->total() }} noticias sin publicar</div>
 
 @endsection    		

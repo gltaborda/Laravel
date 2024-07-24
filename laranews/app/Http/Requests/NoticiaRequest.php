@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Auth\Access\AuthorizationException;
 
 class NoticiaRequest extends FormRequest
 {
@@ -11,10 +12,14 @@ class NoticiaRequest extends FormRequest
      *
      * @return bool
      */
-    /*public function authorize()
+    public function authorize()
     {
-        return true;
-    }*/
+        return $this->user()->can('create', Noticia::class);
+    }
+    
+    protected function failedAuthorization(){
+        throw new AuthorizationException('Solo un redactor puede redactar una noticia');
+    }
 
     /**
      * Get the validation rules that apply to the request.

@@ -50,12 +50,4 @@
 		</iframe>
 	</div>
 	
-@endsection
-
-@section('enlaces')
-	@parent
-	<a href="{{route('noticias.index')}}" class="btn btn-primary my-1 mr-2">Lista de noticias</a>
-@endsection
-
-
-        
+@endsection   

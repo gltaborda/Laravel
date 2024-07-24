@@ -20,7 +20,7 @@ class NoticiaUpdateRequest extends NoticiaRequest
     }
 
     protected function failedAuthorization(){
-        throw new AuthorizationException('No puedes editar una noticia que no es tuya');
+        throw new AuthorizationException('No puedes editar una noticia que no es tuya o está publicada');
     }
     
     

@@ -18,7 +18,7 @@ class NoticiaDeleteRequest extends FormRequest
     }
     
     protected function failedAuthorization(){
-        throw new AuthorizationException('No puedes borrar una moto que no es tuya');
+        throw new AuthorizationException('No puedes eliminar una noticia que no es tuya o está publicada');
     }
     /**
      * Get the validation rules that apply to the request.

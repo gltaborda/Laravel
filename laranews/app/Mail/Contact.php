@@ -34,7 +34,7 @@ class Contact extends Mailable
         if($this->mensaje->fichero){
             $email->attach($this->mensaje->fichero,[
                 'as' => $this->mensaje->nombreOriginal,
-                'mime' => 'image/gif',
+                'mime' => 'application/pdf',
             ]);
         }
         return $email;

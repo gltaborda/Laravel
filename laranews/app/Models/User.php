@@ -45,6 +45,16 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany('App\Models\Noticia');
     }
     
+    /*public function publicadas(){
+        return $this->hasMany('App\Models\Noticia')
+        ->where('published_at','!=',NULL);
+    }
+    
+    public function redactadas(){
+        return $this->hasMany('App\Models\Noticia')
+        ->where('published_at',NULL);
+    }*/
+    
     public function comentarios(){
         return $this->hasMany('App\Models\Comentario');
     }
@@ -76,5 +86,9 @@ class User extends Authenticatable implements MustVerifyEmail
     
     public function isOwner(Noticia $noticia):bool{
         return $this->id == $noticia->user_id;
+    }
+    
+    public function hasWritten(Comentario $comentario):bool{
+        return $this->id == $comentario->user_id;
     }
 }

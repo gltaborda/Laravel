@@ -25,12 +25,23 @@ class HomeController extends Controller
      */
     public function index(Request $request)
     {
-        $noticias = $request->user()->noticias()->latest()
+        $publicadas = $request->user()->noticias()
+            ->where('published_at','!=',NULL)->latest()
+            ->paginate(config('pagination.noticias',10));
+        
+        $redactadas = $request->user()->noticias()
+            ->where('published_at',NULL)->latest()
+            ->paginate(config('pagination.noticias',10));
+        
+        $borradas = $request->user()->noticias()->onlyTrashed()->latest()
             ->paginate(config('pagination.noticias',10));
         
         $comentarios = $request->user()->comentarios()->latest()
             ->paginate(config('pagination.noticias',10));
         
-        return view('home', ['noticias' => $noticias, 'comentarios' => $comentarios]);
+        return view('home', [   'publicadas' => $publicadas,
+                                'redactadas' => $redactadas,
+                                'borradas'   => $borradas,
+                              'comentarios'  => $comentarios]);
     }
 }

@@ -10,24 +10,24 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\NoticiaUpdateRequest;
+use App\Events\Approved;
+use App\Events\Rejected;
 
 
 class NoticiaController extends Controller
-{
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+{    
+    public function __construct(){
+        $this->middleware('verified')->except('index','show','search');
+        
+        $this->middleware('password.confirm')->only('destroy');
+    }
+    
+    
     public function index()
     {
         //recupera ordenando desc por id
-        $noticias = Noticia::orderBy('id','DESC')
-        ->paginate(config('pagination.noticias', 10));
-        
-        //obtengo también el total para mostrar
-        //$total= Noticia::count();
-        
+        $noticias = Noticia::noPublicadas();
+         
         //cargar la vista con el listado de motos
         //ver PDF para detalles con blade
         return view('noticias.list',[
@@ -96,7 +96,7 @@ class NoticiaController extends Controller
             
             // carga la vista correspondiente y le pasa la moto
         $comentarios = $noticia->comentarios()->latest()
-        ->paginate(config('pagination.noticias',10));
+            ->paginate(config('pagination.noticias',10));
         
         return view('noticias.show',['noticia' => $noticia, 'comentarios' => $comentarios]);
     }
@@ -109,11 +109,11 @@ class NoticiaController extends Controller
      */
     public function edit(Request $request, Noticia $noticia)
     {
-        if($request->user()->cant('delete', $noticia))
-            abort(401, 'No puedes borrar una noticia que no es tuya');
+        if($request->user()->cant('update', $noticia))
+            abort(401, 'No puedes editar una noticia que no es tuya o está publicada');
             
             // carga la vista con el formulario para modificar la moto
-            return view('noticias.update',['noticia'=>$noticia]);
+        return view('noticias.update',['noticia'=>$noticia]);
     }
 
     /**
@@ -126,6 +126,7 @@ class NoticiaController extends Controller
     public function update(NoticiaUpdateRequest $request, Noticia $noticia)
     {
         $datos = $request->except('imagen');
+        $noticia->rejected = false;
         
         // si llega una nueva imagen
         if($request->hasFile('imagen')){
@@ -147,8 +148,6 @@ class NoticiaController extends Controller
             //dd($datos);
         }
         
-        // al actualizar debemos tener en cuenta varias cosas:
-        // agrego para que si no está matriculada se ponga a 0 y la matrícula se borre
         if($noticia->update($datos)){ // si todo va bien
             if(isset($aBorrar))
                 Storage::delete($aBorrar); // borramos foto antigua
@@ -182,13 +181,11 @@ class NoticiaController extends Controller
         
         // comprobamos si hay una dirección de retorno
         $redirect = Session::has('returnTo') ?
-        redirect(Session::get('returnTo')) :
-        redirect()->route('noticias.index');
+            redirect(Session::get('returnTo')) :
+            redirect()->route('noticias.index');
         
         Session::remove('returnTo'); // libera la variable
         
-        
-        //redirige a la lista de motos
         return $redirect
             ->with('success',"Noticia #$noticia->id eliminada");
     }
@@ -201,11 +198,12 @@ class NoticiaController extends Controller
         $tema = $tema ?? $request->input('tema','');
         
         
-        $noticias = Noticia::where('titulo', 'like', '%'.$titulo.'%')
-        ->where('tema', 'like', '%'.$tema.'%')
-        ->orderBy('id','DESC')
-        ->paginate(config('pagination.noticias', 5))
-        ->appends(['titulo' => $titulo, 'tema' => $tema]);
+        $noticias = Noticia::where('published_at','!=','NULL')
+            ->where('titulo', 'like', '%'.$titulo.'%')
+            ->where('tema', 'like', '%'.$tema.'%')
+            ->orderBy('id','DESC')
+            ->paginate(config('pagination.noticias', 5))
+            ->appends(['titulo' => $titulo, 'tema' => $tema]);
         
         return view('noticias.list',[
             'noticias' => $noticias,
@@ -213,5 +211,59 @@ class NoticiaController extends Controller
             'tema' => $tema
         ]);
     }
+    
+    public function restore(Request $request, int $id){
+        
+        $noticia = Noticia::withTrashed()->findOrFail($id);
+        
+        if($request->user()->cant('restore', $noticia))
+            throw new AuthorizationException('No tienes permiso para restaurar la noticia');
+            
+        $noticia->restore();
+        
+        return back()->with('success',
+            "Noticia #$noticia->id restaurada correctamente");
+    }
+    
+    public function purge(Request $request){
+        
+        $noticia = Noticia::withTrashed()->findOrFail($request->input('noticia_id'));
+        
+        if($request->user()->cant('delete', $noticia))
+            throw new AuthorizationException('No tienes permiso para borrar la noticia');
+            
+        if($noticia->forceDelete() && $noticia->imagen)
+            // borra también la foto
+            Storage::delete(config('filesystems.noticiasImageDir').'/'.$noticia->imagen);
+                
+        return back()->with('success',
+            "Noticia #$noticia->id eliminada definitivamente");
+    }
+    
+    public function approve(Noticia $noticia)
+    {   
+        $noticia->rejected = false;
+        $noticia->published_at = date('Y-m-d h:i:s');
+        $noticia->update();
+        
+        Approved::dispatch($noticia, $noticia->user);
+        
+        return redirect()->route('noticias.index')->
+            with('success','Noticia aprobada correctamente');
+    }
+    
+    public function reject(Noticia $noticia)
+    {
+        $noticia->rejected = true;
+        $noticia->published_at = NULL;
+        $noticia->update();
+        
+        Rejected::dispatch($noticia, $noticia->user);
+        
+        return redirect()->route('noticias.index')->
+            with('success','Noticia rechazada');
+    }
+    
+    
     
 }

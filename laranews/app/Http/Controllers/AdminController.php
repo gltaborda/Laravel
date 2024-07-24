@@ -25,16 +25,31 @@ class AdminController extends Controller
         return view('admin.users.list', ['users' => $users]);
     }
     
-    /*public function userShow(Request $request, User $user)
+    public function userShow(Request $request, User $user)
     {
-        $noticias = $request->user()->noticias()->latest()
+        $publicadas = $user->noticias()
+            ->where('published_at','!=',NULL)->latest()
             ->paginate(config('pagination.noticias',10));
         
-            $deletedBikes = $request->user()->noticias()->onlyTrashed()->get();
+        $redactadas = $user->noticias()
+            ->where('published_at',NULL)->latest()
+            ->paginate(config('pagination.noticias',10));
         
-        return view('admin.users.show',[
-            'user'=>$user, 'noticias'=>$noticias, 'deletedNoticias' => $deletedNoticias]);
-    }*/
+        $borradas = $user->noticias()->onlyTrashed()->latest()
+            ->paginate(config('pagination.noticias',10));
+        
+        $comentarios = $user->comentarios()->latest()
+            ->paginate(config('pagination.noticias',10));
+        
+        return view('admin.users.show',['user' =>$user, 
+            'publicadas'          =>$publicadas, 
+            'redactadas'   => $redactadas,
+            'borradas'         => $borradas,
+            'comentarios'       => $comentarios
+            
+            
+        ]);
+    }
     
     public function userSearch(Request $request, $name = null, $email = null){
         

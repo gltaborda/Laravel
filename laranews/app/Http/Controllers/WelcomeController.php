@@ -7,7 +7,7 @@ class WelcomeController extends Controller {
     
     public function index(){
         
-        return view('welcome',['ultimas' => Noticia::getLast(4)]);
+        return view('welcome', ['noticias' => Noticia::publicadas()]);
         
     }
     

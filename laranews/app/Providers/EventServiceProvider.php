@@ -6,6 +6,10 @@ use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Event;
+use App\Events\Approved;
+use App\Listeners\ApprovedEmail;
+use App\Events\Rejected;
+use App\Listeners\RejectedEmail;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -18,6 +22,13 @@ class EventServiceProvider extends ServiceProvider
         Registered::class => [
             SendEmailVerificationNotification::class,
         ],
+        Approved::class => [
+            ApprovedEmail::class,
+        ],
+        
+        Rejected::class => [
+            RejectedEmail::class,
+        ]
     ];
 
     /**
