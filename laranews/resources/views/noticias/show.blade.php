@@ -67,20 +67,22 @@
     				<td>{{ $comentario->user->name }}</td>
     				<td>{{ $comentario->texto }}</td>
     				<td>{{ $comentario->created_at }}</td>
-    				<td class="text-center">
-    					<a onclick='
-    						if(confirm("Estás seguro?"))
-    							this.nextElementSibling.submit();''>
-    						
-        					<img height="30" width="30" src="{{ asset('/images/buttons/delete.png') }}"
-        						alt="Ver detalles" title="Ver detalles">
-    					</a>
-    					<form method="POST" action="{{ route('comentarios.delete') }}">
-    						@csrf
-    						@method('DELETE')
-    						<input name="id" type="hidden" value="{{ $comentario->id }}">	
-    					</form>
-    				</td>
+    				@can('delete', $comentario)
+        				<td class="text-center">
+        					<a onclick='
+        						if(confirm("Estás seguro?"))
+        							this.nextElementSibling.submit();''>
+        						
+            					<img height="30" width="30" src="{{ asset('/images/buttons/delete.png') }}"
+            						alt="Ver detalles" title="Ver detalles">
+        					</a>
+        					<form method="POST" action="{{ route('comentarios.delete') }}">
+        						@csrf
+        						@method('DELETE')
+        						<input name="id" type="hidden" value="{{ $comentario->id }}">	
+        					</form>
+        				</td>
+        			@endcan
     			</tr>
     		@endforeach
     		<tr>

@@ -60,9 +60,11 @@
     					<a href="{{ route('noticias.show',$noticia->id)}}">
     					<img height="30" width="30" src="{{ asset('/images/buttons/show.png') }}"
     						alt="Ver detalles" title="Ver detalles"></a>
+    					@can('update', $noticia)
     					<a href="{{ route('noticias.edit',$noticia->id) }}">
         				<img height="30" width="30" src="{{ asset('/images/buttons/update.png') }}"
         					alt="Modificar" title="Modificar"></a>
+        				@endcan
         				<a href="{{ route('noticias.delete',$noticia->id) }}">
         				<img height="30" width="30" src="{{ asset('/images/buttons/delete.png') }}"
         					alt="Borrar" title="Borrar"></a>
