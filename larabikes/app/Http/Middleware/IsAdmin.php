@@ -18,6 +18,6 @@ class IsAdmin{
         if(!$request->user()->hasRole('administrador'))
             abort(403, 'Acceso denegado, debes ser administrador');
             
-            return $next($request);
+        return $next($request);
     }
 }
